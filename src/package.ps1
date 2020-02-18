@@ -11,7 +11,6 @@ param(
 
 
 function main([string] $class_directory, [string] $app_name, [string] $manifest_file) {
-    Invoke-Expression "echo 'Hello World'"
     # compile the java code
     Invoke-Expression "javac -classpath $($class_directory) $($executing_class)"
     # create the jar
