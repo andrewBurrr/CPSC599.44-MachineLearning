@@ -26,7 +26,7 @@ class Cloner<T extends Serializable> {
      * @throws ClassNotFoundException thrown when readObject fails
      * @throws IOException thrown by the object streams or when write object fails
      */
-    T clone(T object) throws ClassNotFoundException, IOException {
+    Object clone(T object) throws ClassNotFoundException, IOException {
         LOGGER.entering(Cloner.class.getName(), "clone(T object)");
         // create serial copy of object
         LOGGER.info("Creating a serialized copy of the data object");
@@ -38,6 +38,6 @@ class Cloner<T extends Serializable> {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
         ObjectInputStream inputStream = new ObjectInputStream(byteArrayInputStream);
         LOGGER.exiting(Cloner.class.getName(), "clone(T object)");
-        return (T) inputStream.readObject();
+        return inputStream.readObject();
     }
 }

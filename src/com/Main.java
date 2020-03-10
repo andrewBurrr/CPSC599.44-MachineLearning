@@ -4,14 +4,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.logging.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-
-interface Task{ }
 
 /**
  * Primary Driver class for CPSC599.44-MachineLearning project. Initializes logging structures for
@@ -39,15 +36,15 @@ public class Main {
     /** The {@link Logger} identifier used to setup logger streams for recording data messages.*/
     private static Logger LOGGER = Logger.getLogger("RuleTrainer");
     /** {@link String} regular expression to match verbose flag and capture groups.*/
-    private static final String VERBOSE = "(?:(?:-v|--verbose)\\s([0-7]))";
+    private static final String VERBOSE = "((?:-v|--verbose)\\s(?:[0-7]))";
     /** {@link String} regular expression to match config flag.*/
     private static final String CONFIG = "(-c|--config)";
     /** {@link String} regular expression to match input flag and capture filename group*/
-    private static final String INPUT = "(?:(?:-i|--input)\\s(\\S+\\.txt))";
+    private static final String INPUT = "((?:-i|--input)\\s(?:\\S+\\.txt))";
     /** {@link String} regular expression to match output flag and capture filename group*/
-    private static final String OUTPUT = "(?:(?:-o|--output)\\s(\\S+\\.txt))";
+    private static final String OUTPUT = "((?:-o|--output)\\s(?:\\S+\\.txt))";
     /** {@link String} regular expression to match weights and capture number list group*/
-    private static final String WEIGHTS = "(?:(?:-w|--weights)\\s((?:\\s*(?:\\d+))+))";
+    private static final String WEIGHTS = "((?:-w|--weights)\\s(?:(?:\\s*(?:[1-9][0-9]*))+))";
 
     /**
      * The main function is the default runner for this application. This function will be responsible for
@@ -56,21 +53,25 @@ public class Main {
      * @param args commandline arguments provided at runtime
      */
     public static void main(String[] args) {
-        List<? extends Task> taskList;
+        LinkedList<?> taskList;
         try {
             setupLogger();
-            if (args.length < 3) {
+            if (args.length < 1) {
+                System.out.println("error");
                 LOGGER.severe("Usage: java -jar AppName -v level [-c | -i input -o output -w weights]");
                 System.exit(0);
             } else {
-                List<String> argParse = parseArgs(args);
-                setVerbosity(argParse.get(1));
-                taskList = (argParse.get(2) == null) ? runSettings() : runManySettings();
+                HashMap<String,String> argParse = parseArgs(args);
+                setVerbosity(argParse.get("verbose"));
+                taskList = (argParse.get("config") == null) ? runSettings() : runManySettings();
                 LOGGER.info("Begin execution flow of tasks:");
-                for (Object task : taskList) trainModel(task);
-                // handle program execution here
+                for (Object task : taskList) {
+                    LOGGER.info("Training Instance ["+task.toString()+"]");
+                    trainModel(task);
+                }
             }
         } catch (IOException ioException) {
+            ioException.printStackTrace();
             System.out.println(ioException.getMessage());
             System.exit(-1);
         }
@@ -87,9 +88,10 @@ public class Main {
      * TODO load single configuration
      * @return a list of one element containing the configuration settings for a single training model
      */
-    private static List<Task> runSettings() {
+    private static LinkedList<?> runSettings() {
         LOGGER.entering(Main.class.getName(), "runSettings()");
-        LinkedList<Task> result = new LinkedList<>();
+        LinkedList<String> result = new LinkedList<>();
+        result.add("test string");
         LOGGER.exiting(Main.class.getName(), "runSettings()", result);
         return result;
     }
@@ -99,9 +101,9 @@ public class Main {
      * TODO load many simulation configurations from config file
      * @return a list of many configurations for a training model
      */
-    private static List<Task> runManySettings() {
+    private static LinkedList<?> runManySettings() {
         LOGGER.entering(Main.class.getName(), "runManySettings()");
-        LinkedList<Task> result = new LinkedList<>();
+        LinkedList<?> result = new LinkedList<>();
         LOGGER.exiting(Main.class.getName(), "runManySettings()", result);
         return result;
     }
@@ -137,15 +139,46 @@ public class Main {
      * @param args commandline arguments passed from main
      * @return the list of arguments parsed by their assigned flags
      */
-    private static List<String> parseArgs(String[] args) {
-        Pattern pattern = Pattern.compile("\\s*"+VERBOSE+"\\s"+"(?:"+CONFIG+"|(?:"+INPUT+"\\s"+OUTPUT+"\\s"+WEIGHTS+"))\\s*");
+    private static HashMap<String,String> parseArgs(String[] args) {
+//        Pattern pattern = Pattern.compile("^(?:\\s*"+VERBOSE+"\\s(?:"+CONFIG+"|(?:"+INPUT+"\\s"+OUTPUT+"\\s"+WEIGHTS+"))\\s*)$");
+        Pattern pattern = Pattern.compile("\\s*"+VERBOSE+"\\s*");
         Matcher matcher = pattern.matcher(String.join(" ", args));
-        List<String> matches = new LinkedList<>();
-        while (matcher.find()) matches.add(matcher.group());
+        HashMap<String,String> matches = new HashMap<>();
+        String[] group;
+        String key = "";
+        boolean ignoreFirst = false;
+        while (matcher.find()) {
+            System.out.println(matcher.group());
+//            if (!ignoreFirst) {
+//                matcher.group();
+//                ignoreFirst = true;
+//            }
+//            group = matcher.group().split("\\s+");
+//            System.out.println(String.join(" _ ", group));
+//            switch (group[0]) {
+//                case "-c": case "--config"  : key = "config"; break;
+//                case "-i": case "--input"   : key = "input" ; break;
+//                case "-o": case "--output"  : key = "output"; break;
+//                case "-v": case "--verbose" : key = "verbose"; break;
+//                case "-w": case "--weights" : key = "weights"; break;
+//            }
+//            if (group.length < 2) matches.put(key, "true");
+//            else if (group.length > 2) matches.put(key, String.join(" ", (String[]) Arrays.copyOfRange(group,1,group.length-1)));
+//            else matches.put(key, group[1]);
+        }
+//        System.out.println(matches.values());
+//        System.out.println(matches.keySet());
         return matches;
     }
 
+    /**
+     * Set logger message level, this method controls how much information to log to the log file / console.
+     * For this reason it is IMPORTANT to not just se the same logging level for all messages!
+     *
+     * @param level integer level value [0-7] low: less messages/off -> high: most messages
+     */
     private static void setVerbosity(String level) {
+        System.out.println(level);
         switch (level) {
             case "0": LOGGER.setLevel(Level.OFF);     break;
             case "1": LOGGER.setLevel(Level.SEVERE);  break;

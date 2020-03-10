@@ -1,9 +1,9 @@
-#!/usr/bin/bash
-
+#!/bin/bash
+# begin script
 # TODO validate script
 
-# begin script
-
+# arguments are (1) class directory, (2) executing class, (3) app name
+# this currently does not work, lol at one point it did
 # compile java code and create jar
 function main () {
     javac `-classpath $(${1}) $(${2})`;
