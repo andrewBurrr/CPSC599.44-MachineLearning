@@ -6,7 +6,8 @@ import java.util.Set;
 
 /**
  * Driver class for the genetic algorithm as described in the project proposal. The starting population is initialized
- * on C4.5 partial solutions, and use an OR-Tree model as described in Dr. Denzingers slides from CPSC 433 Set-Based
+ * on C4.5  (Note: see J48 as a prebuilt java implementation of this) partial solutions, and use an OR-Tree model as
+ * described in Dr. Denzingers slides from CPSC 433 Set-Based
  * Search slides.  This class controls the flow of the following attributes:
  * <ul>
  *     <li>{@link #population}</li>

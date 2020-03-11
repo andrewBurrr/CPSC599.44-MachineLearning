@@ -36,15 +36,15 @@ public class Main {
     // test
     private static final String PARSER = "\\s*(?<verbose>(?:-v|--verbose)\\s(?:[0-7]))\\s(?:(?<config>-c|--config)|(?:(?<input>(?:-i|--input)\\s(?:\\S+\\.txt))\\s(?<output>(?:-o|--output)\\s(?:\\S+\\.txt))\\s(?<weights>(?:-w|--weights)(?:\\s+(?:[1-9][0-9]*))+)))\\s*";
     /** {@link String} regular expression to match verbose flag and capture groups.*/
-    private static final String VERBOSE = "((?:-v|--verbose)\\s(?:[0-7]))";
+    private static final String VERBOSE = "(?<verbose>(?:-v|--verbose)\\s(?:[0-7]))";
     /** {@link String} regular expression to match config flag.*/
-    private static final String CONFIG = "((?:-c|--config))";
+    private static final String CONFIG = "(?<config>-c|--config)";
     /** {@link String} regular expression to match input flag and capture filename group*/
-    private static final String INPUT = "((?:-i|--input)\\s(?:\\S+\\.txt))";
+    private static final String INPUT = "(?<input>(?:-i|--input)\\s(?:\\S+\\.txt))";
     /** {@link String} regular expression to match output flag and capture filename group*/
-    private static final String OUTPUT = "((?:-o|--output)\\s(?:\\S+\\.txt))";
+    private static final String OUTPUT = "(?<output>(?:-o|--output)\\s(?:\\S+\\.txt))";
     /** {@link String} regular expression to match weights and capture number list group*/
-    private static final String WEIGHTS = "((?:-w|--weights)\\s(?:(?:\\s*(?:[1-9][0-9]*))+))";
+    private static final String WEIGHTS = "(?<weights>(?:-w|--weights)(?:\\s+(?:[1-9][0-9]*))+)";
 
     /**
      * The main function is the default runner for this application. This function will be responsible for
@@ -56,13 +56,15 @@ public class Main {
         LinkedList<?> taskList;
         try {
             setupLogger();
-            if (args.length < 1) {
+            if (args.length < 3) {
                 LOGGER.severe("Usage: java -jar AppName -v level [-c | -i input -o output -w weights]");
                 System.exit(0);
             } else {
                 HashMap<String,String> argParse = parseArgs(args);
                 setVerbosity(argParse.get("verbose"));
-                taskList = (argParse.get("config") == null) ? runSettings() : runManySettings();
+                taskList = (argParse.get("config") == null) ?
+                        runSettings(argParse.get("input"), argParse.get("output"), argParse.get("weights")) :
+                        runManySettings();
                 LOGGER.info("Begin execution flow of tasks:");
                 for (Object task : taskList) {
                     LOGGER.info("Training Instance ["+task.toString()+"]");
@@ -87,7 +89,7 @@ public class Main {
      * TODO load single configuration
      * @return a list of one element containing the configuration settings for a single training model
      */
-    private static LinkedList<?> runSettings() {
+    private static LinkedList<?> runSettings(String input, String output, String weights) {
         LOGGER.entering(Main.class.getName(), "runSettings()");
         LinkedList<String> result = new LinkedList<>();
         result.add("test string");
@@ -102,6 +104,7 @@ public class Main {
      * @return a list of many configurations for a training model
      */
     private static LinkedList<?> runManySettings() {
+        // TODO setup file reader
         LOGGER.entering(Main.class.getName(), "runManySettings()");
         LinkedList<?> result = new LinkedList<>();
         LOGGER.exiting(Main.class.getName(), "runManySettings()", result);
@@ -140,8 +143,7 @@ public class Main {
      * @return the list of arguments parsed by their assigned flags
      */
     private static HashMap<String,String> parseArgs(String[] args) {
-//        Pattern pattern = Pattern.compile("^(?:\\s*"+VERBOSE+"\\s(?:"+CONFIG+"|(?:"+INPUT+"\\s"+OUTPUT+"\\s"+WEIGHTS+"))\\s*)$");
-        Pattern pattern = Pattern.compile(PARSER);
+        Pattern pattern = Pattern.compile("^(?:\\s*"+VERBOSE+"\\s(?:"+CONFIG+"|(?:"+INPUT+"\\s"+OUTPUT+"\\s"+WEIGHTS+"))\\s*)$");
         Matcher matcher = pattern.matcher(String.join(" ", args));
         HashMap<String,String> matches = new HashMap<>();
         String[] group;
