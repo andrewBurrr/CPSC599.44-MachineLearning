@@ -2,11 +2,9 @@ package com;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.logging.*;
+import java.util.logging.Formatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,10 +33,12 @@ public class Main {
 
     /** The {@link Logger} identifier used to setup logger streams for recording data messages.*/
     private static Logger LOGGER = Logger.getLogger("RuleTrainer");
+    // test
+    private static final String PARSER = "\\s*(?<verbose>(?:-v|--verbose)\\s(?:[0-7]))\\s(?:(?<config>-c|--config)|(?:(?<input>(?:-i|--input)\\s(?:\\S+\\.txt))\\s(?<output>(?:-o|--output)\\s(?:\\S+\\.txt))\\s(?<weights>(?:-w|--weights)(?:\\s+(?:[1-9][0-9]*))+)))\\s*";
     /** {@link String} regular expression to match verbose flag and capture groups.*/
     private static final String VERBOSE = "((?:-v|--verbose)\\s(?:[0-7]))";
     /** {@link String} regular expression to match config flag.*/
-    private static final String CONFIG = "(-c|--config)";
+    private static final String CONFIG = "((?:-c|--config))";
     /** {@link String} regular expression to match input flag and capture filename group*/
     private static final String INPUT = "((?:-i|--input)\\s(?:\\S+\\.txt))";
     /** {@link String} regular expression to match output flag and capture filename group*/
@@ -57,7 +57,6 @@ public class Main {
         try {
             setupLogger();
             if (args.length < 1) {
-                System.out.println("error");
                 LOGGER.severe("Usage: java -jar AppName -v level [-c | -i input -o output -w weights]");
                 System.exit(0);
             } else {
@@ -99,6 +98,7 @@ public class Main {
     /**
      * Estimated difficulty/time: Easy / 0.5 Hours
      * TODO load many simulation configurations from config file
+     * Note: will likely need to do a similar parsing step as parseArgs function to configure parameters
      * @return a list of many configurations for a training model
      */
     private static LinkedList<?> runManySettings() {
@@ -141,33 +141,32 @@ public class Main {
      */
     private static HashMap<String,String> parseArgs(String[] args) {
 //        Pattern pattern = Pattern.compile("^(?:\\s*"+VERBOSE+"\\s(?:"+CONFIG+"|(?:"+INPUT+"\\s"+OUTPUT+"\\s"+WEIGHTS+"))\\s*)$");
-        Pattern pattern = Pattern.compile("\\s*"+VERBOSE+"\\s*");
+        Pattern pattern = Pattern.compile(PARSER);
         Matcher matcher = pattern.matcher(String.join(" ", args));
         HashMap<String,String> matches = new HashMap<>();
         String[] group;
         String key = "";
-        boolean ignoreFirst = false;
         while (matcher.find()) {
-            System.out.println(matcher.group());
-//            if (!ignoreFirst) {
-//                matcher.group();
-//                ignoreFirst = true;
-//            }
-//            group = matcher.group().split("\\s+");
-//            System.out.println(String.join(" _ ", group));
-//            switch (group[0]) {
-//                case "-c": case "--config"  : key = "config"; break;
-//                case "-i": case "--input"   : key = "input" ; break;
-//                case "-o": case "--output"  : key = "output"; break;
-//                case "-v": case "--verbose" : key = "verbose"; break;
-//                case "-w": case "--weights" : key = "weights"; break;
-//            }
-//            if (group.length < 2) matches.put(key, "true");
-//            else if (group.length > 2) matches.put(key, String.join(" ", (String[]) Arrays.copyOfRange(group,1,group.length-1)));
-//            else matches.put(key, group[1]);
+            for (int i = 1; i <= matcher.groupCount(); i++) {
+                if (matcher.group(i) == null) continue;
+                group = matcher.group(i).split("\\s");
+                switch (group[0]) {
+                    case "-c": case "--config"  : key = "config"; break;
+                    case "-i": case "--input"   : key = "input" ; break;
+                    case "-o": case "--output"  : key = "output"; break;
+                    case "-v": case "--verbose" : key = "verbose"; break;
+                    case "-w": case "--weights" : key = "weights"; break;
+                }
+                if (group.length < 2)
+                    matches.put(key, "true");
+                else if (group.length > 2)
+                    matches.put(key, String.join(" ", (String[]) Arrays.copyOfRange(group,1,group.length-1)));
+                else
+                    matches.put(key, group[1]);
+            }
         }
-//        System.out.println(matches.values());
-//        System.out.println(matches.keySet());
+        for (String mapKey : matches.keySet()) LOGGER.info("Arg[" + mapKey + "]: " + matches.get(mapKey));
+        LOGGER.info("Arguments Parsed");
         return matches;
     }
 
@@ -178,7 +177,6 @@ public class Main {
      * @param level integer level value [0-7] low: less messages/off -> high: most messages
      */
     private static void setVerbosity(String level) {
-        System.out.println(level);
         switch (level) {
             case "0": LOGGER.setLevel(Level.OFF);     break;
             case "1": LOGGER.setLevel(Level.SEVERE);  break;
