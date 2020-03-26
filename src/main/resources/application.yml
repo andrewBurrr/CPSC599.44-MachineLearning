@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: local
+
+logging:
+  config: classpath:logback.xml
+  path: classpat:log
+
+trainer:
+  metrics:
+    support: 0.5
+    dataFile: classpath:data.csv
