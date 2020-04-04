@@ -25,14 +25,7 @@ public class RushHour_Data {
                 an_array[i] /= all_rush_hour_stats.size();
             }
         }
-        /*
-        for (int i=0; i<rush_hour_average.length; i++) {
-            for (int j=0; j<rush_hour_average[0].length; j++) {
-                System.out.printf("%d ", rush_hour_average[i][j]);
-            }
-            System.out.println("");
-        }
-        */
+
         return rush_hour_average;
     }
 
