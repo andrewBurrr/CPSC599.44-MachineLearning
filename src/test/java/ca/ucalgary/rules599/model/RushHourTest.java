@@ -32,49 +32,49 @@ public class RushHourTest {
      * 5 4 6 6 7 9 8
      * 3 2 3 4 4 6 7
      */
-    Integer[][] rush_hour_averages = RushHour_Data.get_rush_hour_averages();
+    Integer[][] rush_hour_averages = RushHour_PreProcessing.get_rush_hour_averages();
 
 
     @Before
     // ensure that threshold is always set to default value
     public void setUp() throws Exception {
-        PreProcessing.rush_hour_threshold = 20;
+        RushHour_PreProcessing.rush_hour_threshold = 20;
     }
 
     @Test
     public void check_threshold_default_value() {
-        assertEquals(PreProcessing.rush_hour_threshold, 20);
+        assertEquals(RushHour_PreProcessing.rush_hour_threshold, 20);
     }
 
     @Test
     public void check_false_values() {
-        int current_threhold = PreProcessing.rush_hour_threshold;
+        int current_threhold = RushHour_PreProcessing.rush_hour_threshold;
 
         // check sunday at 12:00 am
         String wday = "07";
         String hour = "00";
-        boolean test1 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test1 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         boolean actual1 = rush_hour_averages[Integer.parseInt(hour)][Integer.parseInt(wday) % 7] >= current_threhold;
         assertEquals(test1, actual1);
 
         // check sunday at 11:00 pm
         wday = "07";
         hour = "23";
-        boolean test2 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test2 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         boolean actual2 = rush_hour_averages[Integer.parseInt(hour)][Integer.parseInt(wday) % 7] >= current_threhold;
         assertEquals(test2, actual2);
 
         // check saturday at 12:00 am
         wday = "06";
         hour = "00";
-        boolean test3 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test3 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         boolean actual3 = rush_hour_averages[Integer.parseInt(hour)][Integer.parseInt(wday) % 7] >= current_threhold;
         assertEquals(test3, actual3);
 
         // check saturday at 11:00 pm
         wday = "06";
         hour = "23";
-        boolean test4 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test4 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         boolean actual4 = rush_hour_averages[Integer.parseInt(hour)][Integer.parseInt(wday) % 7] >= current_threhold;
         assertEquals(test4, actual4);
     }
@@ -84,63 +84,63 @@ public class RushHourTest {
         // return false on hour = UU
         String wday = "06";
         String hour = "UU";
-        boolean test1 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test1 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         assertEquals(test1, false);
 
         // return false on hour = XX
         wday = "06";
         hour = "XX";
-        boolean test2 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test2 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         assertEquals(test2, false);
 
         // return false on wday = U
         wday = "U";
         hour = "00";
-        boolean test3 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test3 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         assertEquals(test3, false);
 
         // return false on wday = X
         wday = "X";
         hour = "00";
-        boolean test4 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test4 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         assertEquals(test4, false);
 
         // return false on both incorrect wday and hour
         wday = "X";
         hour = "UU";
-        boolean test5 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test5 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         assertEquals(test5, false);
     }
 
     @Test
     public void check_rush_hours() {
-        int current_threhold = PreProcessing.rush_hour_threshold;
+        int current_threhold = RushHour_PreProcessing.rush_hour_threshold;
 
         // check monday at 7:00 am
         String wday = "01";
         String hour = "07";
-        boolean test1 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test1 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         boolean actual1 = rush_hour_averages[Integer.parseInt(hour)][Integer.parseInt(wday) % 7] >= current_threhold;
         assertEquals(test1, true);
 
         // check monday at 4:00 pm
         wday = "01";
         hour = "16";
-        boolean test2 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test2 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         boolean actual2 = rush_hour_averages[Integer.parseInt(hour)][Integer.parseInt(wday) % 7] >= current_threhold;
         assertEquals(test2, true);
 
         // check friday at 8:00 am
         wday = "05";
         hour = "08";
-        boolean test3 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test3 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         boolean actual3 = rush_hour_averages[Integer.parseInt(hour)][Integer.parseInt(wday) % 7] >= current_threhold;
         assertEquals(test3, true);
 
         // check friday at 5:00 pm
         wday = "05";
         hour = "17";
-        boolean test4 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test4 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         boolean actual4 = rush_hour_averages[Integer.parseInt(hour)][Integer.parseInt(wday) % 7] >= current_threhold;
         assertEquals(test4, true);
     }
@@ -152,13 +152,13 @@ public class RushHourTest {
         // sunday at 12:00 am
         String wday = "07";
         String hour = "00";
-        boolean test1 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test1 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         //boolean actual1 = rush_hour_averages[Integer.parseInt(hour)][Integer.parseInt(wday) % 7] >= current_threhold;
         assertEquals(test1, false);
 
         // set threshold to 0 so its always true
-        PreProcessing.rush_hour_threshold = 0;
-        boolean test2 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        RushHour_PreProcessing.rush_hour_threshold = 0;
+        boolean test2 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         assertEquals(test2, true);
 
     }
@@ -169,27 +169,27 @@ public class RushHourTest {
         // average congestion rate = 4
         String wday = "7";
         String hour = "00";
-        boolean test1 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test1 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         assertEquals(test1, false);
 
         // sunday at 12:00 am
         // check again but set congestion rate to 4
-        PreProcessing.rush_hour_threshold = 4;
-        boolean test2 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        RushHour_PreProcessing.rush_hour_threshold = 4;
+        boolean test2 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         assertEquals(test2, true);
 
         // saturday at 11:00 pm
         // average congestion rate = 7
-        PreProcessing.rush_hour_threshold = 20;     // reset to default
+        RushHour_PreProcessing.rush_hour_threshold = 20;     // reset to default
         wday = "06";
         hour = "23";
-        boolean test3 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        boolean test3 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         assertEquals(test3, false);
 
         // saturday at 11:00 pm
         // check again but set congestion rate to 7
-        PreProcessing.rush_hour_threshold = 7;
-        boolean test4 = PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
+        RushHour_PreProcessing.rush_hour_threshold = 7;
+        boolean test4 = RushHour_PreProcessing.evaluate_rush_hour("15", "12", wday, hour);
         assertEquals(test4, true);
     }
 

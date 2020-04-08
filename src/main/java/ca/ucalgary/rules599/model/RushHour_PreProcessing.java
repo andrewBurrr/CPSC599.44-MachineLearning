@@ -2,13 +2,59 @@ package ca.ucalgary.rules599.model;
 
 import java.util.*;
 
-public class RushHour_Data {
+/**
+ * Contains traffic data from TomTom's website
+ * Implements the pre-processing to determine traffic rate based on date and time
+ * @author Benedict Mendoza
+ * @since 2020-04-08
+ */
+public class RushHour_PreProcessing {
 
-    private static Integer[][] rush_hour_average;
+    // default congestion rate threshold
+    // if greater than equal threshold then it is considered rush hour, false otherwise
+    public static int rush_hour_threshold = 20;
+    // array of averages index by time and day => averages[hour][day]
+    private static Integer[][] rush_hour_averages = null;
 
+    /**
+     * calculates whether a given entry happened during a rush hour
+     * based on date and time
+     * @param C_YEAR: year value of an entry
+     * @param C_MNTH: month value of an entry
+     * @param C_WDAY: day value of an entry
+     * @param C_HOUR: hour value of an entry
+     * @return boolean where true means entry happened during a rush hour, otherwise false
+     */
+    public static boolean evaluate_rush_hour(String C_YEAR, String C_MNTH, String C_WDAY, String C_HOUR) {
+        if (rush_hour_averages == null) {
+            rush_hour_averages = RushHour_PreProcessing.get_rush_hour_averages();
+        }
+        int hour = -1;
+        int wday = -1;
+        try {
+            hour = Integer.parseInt(C_HOUR);
+            wday = Integer.parseInt(C_WDAY);
+            if (hour<0 || hour>23 || wday<1 || wday>7) {
+                // invalid values
+                return false;
+            }
+
+        } catch (Exception e) {
+            // input must have been unknown
+            return false;
+        }
+
+        // wday has sunday=7 but needs to be 0
+        return rush_hour_averages[hour][wday%7] >= rush_hour_threshold;
+    }
+
+    /**
+     * averages all the rush hour data across multiple canadian cities
+     * @return: 2d array of rush hour averages
+     */
     public static Integer[][] get_rush_hour_averages() {
-        if (rush_hour_average != null)
-            return rush_hour_average;
+        if (rush_hour_averages != null)
+            return rush_hour_averages;
 
         Integer[][] rush_hour_average = Arrays.stream(new Integer[HALIFAX_TOMTOM_STATS.length][HALIFAX_TOMTOM_STATS[0].length])
                                         .map(x -> new Integer[]{0, 0, 0, 0, 0, 0, 0})
@@ -16,12 +62,12 @@ public class RushHour_Data {
 
         Collection<Integer[][]> all_rush_hour_stats = get_all_stats().values();
         for (Integer[][] a_chart : all_rush_hour_stats) {
-            add_stats(rush_hour_average, a_chart);
+            add_2d_array(rush_hour_average, a_chart);
         }
 
         // average the entries
         for (Integer[] an_array : rush_hour_average) {
-            for (int i=0; i<rush_hour_average[0].length; i++) {
+            for (int i=0; i<an_array.length; i++) {
                 an_array[i] /= all_rush_hour_stats.size();
             }
         }
@@ -29,6 +75,10 @@ public class RushHour_Data {
         return rush_hour_average;
     }
 
+    /**
+     * stores all city rush hour data into a map
+     * @return: a map of city_name->2d array of rush hours
+     */
     public static Map<String, Integer[][]> get_all_stats() {
         Map<String, Integer[][]> all_stats = new HashMap<String, Integer[][]>();
 
@@ -48,8 +98,12 @@ public class RushHour_Data {
         return all_stats;
     }
 
-
-    private static void add_stats(Integer[][] dest, Integer[][] src) {
+    /**
+     * adds the values of two 2d arrays
+     * @param dest: array use in addition and destination
+     * @param src: array use in addition
+     */
+    private static void add_2d_array(Integer[][] dest, Integer[][] src) {
         if (dest.length != src.length || dest[0].length != src[0].length)
             return;
 
