@@ -13,6 +13,4 @@ public class TrainerConfig {
     public int support;
     public Resource dataFile;
 
-
-
 }

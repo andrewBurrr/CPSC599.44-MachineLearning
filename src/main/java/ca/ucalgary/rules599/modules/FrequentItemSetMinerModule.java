@@ -24,6 +24,18 @@ public class FrequentItemSetMinerModule<ItemType extends Item> implements Freque
     private static final Logger LOGGER = LoggerFactory.getLogger(FrequentItemSetMinerModule.class);
 
 
+
+    /**
+     * Generates and returns item sets, which contain only one item.
+     *
+     * @param iterable An iterable, which allows to iterate the transactions of the data set, which
+     *                 should be processed by the algorithm, as an instance of the type {@link
+     *                 Iterable}. The iterable may not be null
+     * @return A pair, which contains the generated item sets, as well as the number of
+     * transactions, which have been iterated, as an instance of the class {@link Pair}. The pair
+     * may not be null
+     */
+
     @NotNull
     private Pair<Collection<TransactionalItemSet<ItemType>>, Integer> generateInitialItemSets(
             @NotNull final Iterable<Transaction<ItemType>> iterable) {
@@ -49,10 +61,26 @@ public class FrequentItemSetMinerModule<ItemType extends Item> implements Freque
         return Pair.create(itemSets.values(), transactionCount);
     }
 
+    /**
+     * Removes the item sets, which are not frequent, from a specific collection. Calculating the
+     * support of the item sets requires to access the data set.
+     *
+     * @param itemSets         A collection, which contains the item sets, which should be filtered,
+     *                         as an instance of the type {@link Collection} or an empty collection,
+     *                         if no item sets are available
+     * @param transactionCount The total number of transactions, which are contained in the data
+     *                         set, as an {@link Integer} value
+     * @param k                The length of the item sets, which should be filtered, as an {@link
+     *                         Integer} value
+     * @param minSupport       The minimum support, which must at least be reached by an item set to
+     *                         be considered frequent, as a {@link Double} value. The support must
+     *                         be at least 0 and at maximum 1
+     * @return A list, which contains the item sets, which are frequent, as an instance of the type
+     * {@link List} or an empty list, if no item sets are frequent
+     */
 
     @NotNull
-    private List<TransactionalItemSet<ItemType>> filterFrequentItemSets(
-            @NotNull final Collection<TransactionalItemSet<ItemType>> itemSets,
+    private List<TransactionalItemSet<ItemType>> filterFrequentItemSets(@NotNull final Collection<TransactionalItemSet<ItemType>> itemSets,
             final int transactionCount, final int k, final double minSupport) {
         List<TransactionalItemSet<ItemType>> frequentCandidates = new ArrayList<>(itemSets.size());
 
@@ -143,8 +171,7 @@ public class FrequentItemSetMinerModule<ItemType extends Item> implements Freque
     }
 
     @NotNull
-    public final Map<Integer, TransactionalItemSet<ItemType>> findFrequentItemSets(
-            @NotNull final Iterable<Transaction<ItemType>> iterable, final double minSupport) {
+    public final Map<Integer, TransactionalItemSet<ItemType>> findFrequentItemSets(@NotNull final Iterable<Transaction<ItemType>> iterable, final double minSupport) {
         ensureNotNull(iterable, "The iterable may not be null");
         ensureAtLeast(minSupport, 0, "The minimum support must be at least 0");
         ensureAtMaximum(minSupport, 1, "The minimum support must be at maximum 1");

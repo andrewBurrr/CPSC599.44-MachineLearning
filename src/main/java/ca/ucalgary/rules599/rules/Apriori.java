@@ -339,7 +339,6 @@ public class Apriori<ItemType extends Item> {
         this.associationRuleGeneratorTask = associationRuleGeneratorTask;
     }
 
-
     @NotNull
     public final Configuration getConfiguration() {
         return configuration;

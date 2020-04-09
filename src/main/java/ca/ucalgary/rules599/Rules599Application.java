@@ -1,7 +1,9 @@
 package ca.ucalgary.rules599;
 
 import ca.ucalgary.rules599.Training.EvolutionaryAlgorithm;
+import ca.ucalgary.rules599.config.TrainerConfig;
 import ca.ucalgary.rules599.util.Logger599;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 
@@ -26,6 +28,10 @@ public class Rules599Application implements CommandLineRunner {
     private static final String WEIGHTS = "(?<weights>(?:-w|--weights)(?:\\s+(?:[1-9][0-9]*))+)";
     private static Logger599 LOG = new Logger599(Rules599Application.class.getName());
 
+    @Autowired
+    TrainerConfig trainerConfig;
+
+
     public static void main(String[] args) {
         LOG.info("STARTING Rules599 APPLICATION");
         SpringApplication.run(Rules599Application.class, args);
@@ -45,7 +51,7 @@ public class Rules599Application implements CommandLineRunner {
             LOG.info("Begin execution flow of tasks:");
             for (Object task : taskList) {
                 LOG.info("Training Instance ["+task.toString()+"]");
-                EvolutionaryAlgorithm.processTrainer(task);
+                boolean result = new EvolutionaryAlgorithm(trainerConfig).processTrainer(task);
             }
         }
     }

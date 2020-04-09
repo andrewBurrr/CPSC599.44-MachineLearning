@@ -30,6 +30,29 @@ public class AssociationRuleGeneratorModule<ItemType extends Item> implements As
         generateRules(itemSet, frequentItemSets, ruleSet, itemSet, null, minConfidence);
     }
 
+    /**
+     * Generates association rules from a specific item set by moving items from a rule's body to
+     * its head. This method is executed recursively until the resulting rule does not reach the
+     * minimum confidence anymore.
+     *
+     * @param itemSet          The item set, the association rules should be created from, as an
+     *                         instance of the class {@link ItemSet}. The item set may not be null
+     * @param frequentItemSets A map, which contains all available frequent item sets, as an
+     *                         instance of the type {@link Map} or an empty map, if no frequent item
+     *                         sets are available. The map must store the frequent item sets as
+     *                         values and their hash codes as the corresponding keys
+     * @param ruleSet          The rule set, the generated rules should be added to, as an instance
+     *                         of the class {@link RuleSet}. The rule set may not be null
+     * @param body             The body, the items, which should be moved to the head, should be
+     *                         taken from, as an instance of the class {@link ItemSet}. The body may
+     *                         not be null
+     * @param head             The head, the items, which are taken from the given body, should be
+     *                         moved to, as an instance of the class {@link ItemSet} or null, if an
+     *                         empty head should be created
+     * @param minConfidence    The minimum confidence, which must at least be reached by association
+     *                         rules, as a {@link Double} value. The confidence must be at least 0
+     *                         and at maximum 1
+     */
     private void generateRules(@NotNull final ItemSet<ItemType> itemSet,
                                @NotNull final Map<Integer, ? extends ItemSet<ItemType>> frequentItemSets,
                                @NotNull final RuleSet<ItemType> ruleSet,

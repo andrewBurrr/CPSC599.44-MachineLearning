@@ -3,8 +3,8 @@ spring:
     active: local
 
 logging:
-  config: classpath:logback.xml
-  #path: classpath:log
+  config: classpath:logback-test.xml
+  #path: classpath:src/tezt/resources
 
 trainer:
   metrics:

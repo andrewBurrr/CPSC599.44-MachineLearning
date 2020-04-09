@@ -14,7 +14,7 @@ public abstract class AbstractDataTest {
     /**
      * The name of the first input file, which is used by the tests.
      */
-    protected static final String INPUT_FILE_1 = "src/test/resources/data_2017.csv";
+    protected static final String INPUT_FILE_1 = "src/test/resources/data_lite.csv";
 
     @NotNull
     protected final File getInputFile(@NotNull final String fileName) {

@@ -1,9 +1,14 @@
 package ca.ucalgary.rules599.util;
 
+import ca.ucalgary.rules599.model.AccidentData;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class FileUtil {
     private static void mkdir(@NotNull File directory, boolean createParents) throws IOException {
@@ -80,5 +85,18 @@ public final class FileUtil {
         }
 
     }
+
+    public static void createFile(String file, List<String> arrData) throws IOException {
+        FileWriter writer = new FileWriter(file);
+        int size = arrData.size();
+        for (int i=0;i<size;i++) {
+            String str = arrData.get(i);
+            writer.write(str);
+            if(i < size-1)
+            writer.write("\n");
+        }
+        writer.close();
+    }
+
 }
 

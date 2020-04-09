@@ -22,24 +22,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class AprioriTest extends AbstractDataTest {
-    static AccidentData item1,item2;
-    static Person person1,person2,person3;
-    static Collision collision1,collision2,collision3;
-    static Vehicle vehicle1,vehicle2,vehicle3;
+    static AccidentAttribute item1,item2;
+
 
     @Before
     public void setup() {
-        person1 = Person.builder().P_ID("1").P_SEX("M").P_AGE("75").P_PSN("11").P_ISEV("2").P_SAFE("NN").P_USER("1").build();
-        person2 = Person.builder().P_ID("1").P_SEX("F").P_AGE("21").P_PSN("11").P_ISEV("2").P_SAFE("2").P_USER("1").build();
 
-        vehicle1= Vehicle.builder().V_ID("1").V_TYPE("1").V_YEAR("UUUU").build();
-        vehicle2= Vehicle.builder().V_ID("2").V_TYPE("1").V_YEAR("UUUU").build();
-
-        collision1= Collision.builder().C_YEAR("2017").C_MNTH("1").C_WDAY("1").C_HOUR("10").C_SEV("2").C_VEHS("1").C_CONF("2").C_RCFG("3").C_WTHR("1").C_RSUR("3").C_RALN("2").C_TRAF("18").build();
-        collision2= Collision.builder().C_YEAR("2017").C_MNTH("1").C_WDAY("1").C_HOUR("12").C_SEV("2").C_VEHS("1").C_CONF("4").C_RCFG("UU").C_WTHR("1").C_RSUR("5").C_RALN("1").C_TRAF("UU").build();
-
-        item1 = AccidentData.builder().collision(collision1).person(person1).vehicle(vehicle1).build();
-        item2 = AccidentData.builder().collision(collision2).person(person2).vehicle(vehicle2).build();
+        item1 = AccidentAttribute.builder().name("2006").build();
+        item2 = AccidentAttribute.builder().name("2007").build();
 
     }
     @Test
@@ -345,7 +335,7 @@ public class AprioriTest extends AbstractDataTest {
         double maxConfidence = 0.8;
         double confidenceDelta = 0.2;
         int ruleCount = 0;
-        Apriori<AccidentData> apriori = new Apriori.Builder<AccidentData>(frequentItemSetCount)
+        Apriori<AccidentAttribute> apriori = new Apriori.Builder<AccidentAttribute>(frequentItemSetCount)
                 .generateRules(minConfidence).minSupport(minSupport).maxSupport(maxSupport)
                 .supportDelta(supportDelta).frequentItemSetCount(frequentItemSetCount)
                 .maxConfidence(maxConfidence).confidenceDelta(confidenceDelta).ruleCount(ruleCount)
@@ -376,7 +366,7 @@ public class AprioriTest extends AbstractDataTest {
         double maxConfidence = 0.8;
         double confidenceDelta = 0.2;
         int ruleCount = 2;
-        Apriori<AccidentData> apriori = new Apriori.Builder<AccidentData>(frequentItemSetCount)
+        Apriori<AccidentAttribute> apriori = new Apriori.Builder<AccidentAttribute>(frequentItemSetCount)
                 .generateRules(ruleCount).minSupport(minSupport).maxSupport(maxSupport)
                 .supportDelta(supportDelta).frequentItemSetCount(frequentItemSetCount)
                 .minConfidence(minConfidence).maxConfidence(maxConfidence)
@@ -466,28 +456,28 @@ public class AprioriTest extends AbstractDataTest {
     public final void testExecuteWhenNotGeneratingRules() {
         Apriori.Configuration configuration = mock(Apriori.Configuration.class);
         when(configuration.isGeneratingRules()).thenReturn(false);
-        Map<Integer, TransactionalItemSet<AccidentData>> map = new HashMap<>();
-        TransactionalItemSet<AccidentData> itemSet1 = new TransactionalItemSet<>();
+        Map<Integer, TransactionalItemSet<AccidentAttribute>> map = new HashMap<>();
+        TransactionalItemSet<AccidentAttribute> itemSet1 = new TransactionalItemSet<>();
         itemSet1.add(item1);
         itemSet1.setSupport(1.0);
-        TransactionalItemSet<AccidentData> itemSet2 = new TransactionalItemSet<>();
+        TransactionalItemSet<AccidentAttribute> itemSet2 = new TransactionalItemSet<>();
         itemSet2.add(item2);
         itemSet2.setSupport(0.9);
         map.put(itemSet1.hashCode(), itemSet1);
         map.put(itemSet2.hashCode(), itemSet2);
-        FrequentItemSetMinerTask<AccidentData> frequentItemSetMinerTask = new FrequentItemSetMinerTask<>(
+        FrequentItemSetMinerTask<AccidentAttribute> frequentItemSetMinerTask = new FrequentItemSetMinerTask<>(
                 configuration, (iterator, minSupport) -> map);
-        AssociationRuleGeneratorTask<AccidentData> associationRuleGeneratorTask = new AssociationRuleGeneratorTask<>(
+        AssociationRuleGeneratorTask<AccidentAttribute> associationRuleGeneratorTask = new AssociationRuleGeneratorTask<>(
                 configuration, (frequentItemSets, minConfidence) -> {
             throw new RuntimeException();
         });
         File file = getInputFile(INPUT_FILE_1);
-        Apriori<AccidentData> apriori = new Apriori<>(configuration, frequentItemSetMinerTask,
+        Apriori<AccidentAttribute> apriori = new Apriori<>(configuration, frequentItemSetMinerTask,
                 associationRuleGeneratorTask);
-        Output<AccidentData> output = apriori.execute(() -> new DataIterator(file));
+        Output<AccidentAttribute> output = apriori.execute(() -> new DataIterator(file,1,true));
         assertEquals(configuration, output.getConfiguration());
         assertNull(output.getRuleSet());
-        SortedSet<ItemSet<AccidentData>> set = output.getFrequentItemSets();
+        SortedSet<ItemSet<AccidentAttribute>> set = output.getFrequentItemSets();
         assertEquals(map.size(), set.size());
         assertFalse(set.first() instanceof TransactionalItemSet);
         assertEquals(1, set.first().size());
@@ -505,30 +495,30 @@ public class AprioriTest extends AbstractDataTest {
     public final void testExecuteWhenGeneratingRules() {
         Apriori.Configuration configuration = mock(Apriori.Configuration.class);
         when(configuration.isGeneratingRules()).thenReturn(true);
-        Map<Integer, TransactionalItemSet<AccidentData>> map = new HashMap<>();
-        TransactionalItemSet<AccidentData> itemSet1 = new TransactionalItemSet<>();
+        Map<Integer, TransactionalItemSet<AccidentAttribute>> map = new HashMap<>();
+        TransactionalItemSet<AccidentAttribute> itemSet1 = new TransactionalItemSet<>();
         itemSet1.add(item1);
         itemSet1.setSupport(1.0);
-        TransactionalItemSet<AccidentData> itemSet2 = new TransactionalItemSet<>();
+        TransactionalItemSet<AccidentAttribute> itemSet2 = new TransactionalItemSet<>();
         itemSet2.add(item2);
         itemSet2.setSupport(0.9);
         map.put(itemSet1.hashCode(), itemSet1);
         map.put(itemSet2.hashCode(), itemSet2);
-        RuleSet<AccidentData> ruleSet = new RuleSet<>(null);
-        AssociationRule<AccidentData> associationRule = new AssociationRule<>(new ItemSet<>(),
+        RuleSet<AccidentAttribute> ruleSet = new RuleSet<>(null);
+        AssociationRule<AccidentAttribute> associationRule = new AssociationRule<>(new ItemSet<>(),
                 new ItemSet<>(), 0.5);
         ruleSet.add(associationRule);
-        FrequentItemSetMinerTask<AccidentData> frequentItemSetMinerTask = new FrequentItemSetMinerTask<>(
+        FrequentItemSetMinerTask<AccidentAttribute> frequentItemSetMinerTask = new FrequentItemSetMinerTask<>(
                 configuration, (iterator, minSupport) -> map);
-        AssociationRuleGeneratorTask<AccidentData> associationRuleGeneratorTask = new AssociationRuleGeneratorTask<>(
+        AssociationRuleGeneratorTask<AccidentAttribute> associationRuleGeneratorTask = new AssociationRuleGeneratorTask<>(
                 configuration, (frequentItemSets, minConfidence) -> ruleSet);
         File file = getInputFile(INPUT_FILE_1);
-        Apriori<AccidentData> apriori = new Apriori<>(configuration, frequentItemSetMinerTask,
+        Apriori<AccidentAttribute> apriori = new Apriori<>(configuration, frequentItemSetMinerTask,
                 associationRuleGeneratorTask);
-        Output<AccidentData> output = apriori.execute(() -> new DataIterator(file));
+        Output<AccidentAttribute> output = apriori.execute(() -> new DataIterator(file,1,true));
         assertEquals(configuration, output.getConfiguration());
         assertEquals(ruleSet, output.getRuleSet());
-        SortedSet<ItemSet<AccidentData>> set = output.getFrequentItemSets();
+        SortedSet<ItemSet<AccidentAttribute>> set = output.getFrequentItemSets();
         assertEquals(map.size(), set.size());
         assertFalse(set.first() instanceof TransactionalItemSet);
         assertEquals(1, set.first().size());

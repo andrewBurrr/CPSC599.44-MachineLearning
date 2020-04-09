@@ -1,8 +1,8 @@
 package ca.ucalgary.rules599.test;
 
 import ca.ucalgary.rules599.datastructure.TransactionalItemSet;
-import ca.ucalgary.rules599.model.AccidentData;
 import ca.ucalgary.rules599.model.ItemSet;
+import ca.ucalgary.rules599.model.AccidentAttribute;
 import ca.ucalgary.rules599.modules.FrequentItemSetMinerModule;
 import ca.ucalgary.rules599.util.DataIterator;
 import org.jetbrains.annotations.NotNull;
@@ -20,20 +20,20 @@ public class FrequentItemSetMinerTest extends AbstractDataTest {
 
     private void testFindFrequentItemSets(@NotNull final String fileName,
                                           final double minSupport,
-                                          @NotNull final List<AccidentData> actualFrequentItemSets,
+                                          @NotNull final List<AccidentAttribute> actualFrequentItemSets,
                                           @NotNull double[] actualSupports) {
         File inputFile = getInputFile(fileName);
-        FrequentItemSetMinerModule<AccidentData> frequentItemSetMiner = new FrequentItemSetMinerModule<>();
-        Map<Integer, TransactionalItemSet<AccidentData>> frequentItemSets = frequentItemSetMiner
-                .findFrequentItemSets(() -> new DataIterator(inputFile), minSupport);
+        FrequentItemSetMinerModule<AccidentAttribute> frequentItemSetMiner = new FrequentItemSetMinerModule<>();
+        Map<Integer, TransactionalItemSet<AccidentAttribute>> frequentItemSets = frequentItemSetMiner
+                .findFrequentItemSets(() -> new DataIterator(inputFile,1,true), minSupport);
         int frequentItemSetCount = 0;
 
-        for (Map.Entry<Integer, TransactionalItemSet<AccidentData>> entry : frequentItemSets
+        for (Map.Entry<Integer, TransactionalItemSet<AccidentAttribute>> entry : frequentItemSets
                 .entrySet()) {
             int key = entry.getKey();
-            ItemSet<AccidentData> itemSet = entry.getValue();
+            ItemSet<AccidentAttribute> itemSet = entry.getValue();
 
-            for (AccidentData item : itemSet) {
+            for (AccidentAttribute item : itemSet) {
                 assertTrue(actualFrequentItemSets.contains(item));
             }
 
@@ -54,15 +54,15 @@ public class FrequentItemSetMinerTest extends AbstractDataTest {
     @Test(expected = IllegalArgumentException.class)
     public final void testFindFrequentItemSetsThrowsExceptionWhenMinSupportIsLessThanZero() {
         File inputFile = getInputFile(INPUT_FILE_1);
-        new FrequentItemSetMinerModule<AccidentData>()
-                .findFrequentItemSets(() -> new DataIterator(inputFile), -0.1);
+        new FrequentItemSetMinerModule<AccidentAttribute>()
+                .findFrequentItemSets(() -> new DataIterator(inputFile,1,true), -0.1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public final void testFindFrequentItemSetsThrowsExceptionWhenMinSupportIsGreaterThanOne() {
         File inputFile = getInputFile(INPUT_FILE_1);
-        new FrequentItemSetMinerModule<AccidentData>()
-                .findFrequentItemSets(() -> new DataIterator(inputFile), 1.1);
+        new FrequentItemSetMinerModule<AccidentAttribute>()
+                .findFrequentItemSets(() -> new DataIterator(inputFile,1,true), 1.1);
     }
 
 }

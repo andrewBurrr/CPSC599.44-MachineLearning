@@ -34,8 +34,7 @@ public class AssociationRuleGeneratorTask<ItemType extends Item> extends Abstrac
 
 
     @NotNull
-    public final RuleSet<ItemType> generateAssociationRules(
-            @NotNull final Map<Integer, ? extends ItemSet<ItemType>> frequentItemSets) {
+    public final RuleSet<ItemType> generateAssociationRules(@NotNull final Map<Integer, ? extends ItemSet<ItemType>> frequentItemSets) {
         if (getConfiguration().getRuleCount() > 0) {
             RuleSet<ItemType> result = null;
             double currentMinConfidence = getConfiguration().getMaxConfidence();
