@@ -1,0 +1,20 @@
+DESKTOP-V3TA1NH RuleGenerator 13:12:47.802 [32m[main][0;39m [34mINFO[0;39m ca.ucalgary.rules599.Rules599Application -  STARTING Rules599 APPLICATION
+DESKTOP-V3TA1NH RuleGenerator 13:12:48.744 [32m[main][0;39m [34mINFO[0;39m ca.ucalgary.rules599.Rules599Application - Starting Rules599Application v1.0-SNAPSHOT on DESKTOP-V3TA1NH with PID 16808 (C:\Users\Hatcher\Documents\GitHub\Test\CPSC599.44-MachineLearning\target\rules_599-1.0-SNAPSHOT-spring-boot.jar started by Hatcher in C:\Users\Hatcher\Documents\GitHub\Test\CPSC599.44-MachineLearning)
+DESKTOP-V3TA1NH RuleGenerator 13:12:48.746 [32m[main][0;39m [34mINFO[0;39m ca.ucalgary.rules599.Rules599Application - The following profiles are active: local
+DESKTOP-V3TA1NH RuleGenerator 13:12:48.783 [32m[main][0;39m [34mINFO[0;39m o.s.c.a.AnnotationConfigApplicationContext - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@23529fee: startup date [Thu Apr 09 13:12:48 MDT 2020]; root of context hierarchy
+DESKTOP-V3TA1NH RuleGenerator 13:12:49.035 [32m[main][0;39m [31mWARN[0;39m o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'rules599Application': Unsatisfied dependency expressed through field 'trainerConfig'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'ca.ucalgary.rules599.config.TrainerConfig' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+DESKTOP-V3TA1NH RuleGenerator 13:12:49.053 [32m[main][0;39m [1;31mERROR[0;39m o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field trainerConfig in ca.ucalgary.rules599.Rules599Application required a bean of type 'ca.ucalgary.rules599.config.TrainerConfig' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'ca.ucalgary.rules599.config.TrainerConfig' in your configuration.
+

@@ -1,0 +1,49 @@
+DESKTOP-V3TA1NH RuleGenerator 13:03:43.947 [32m[main][0;39m [34mINFO[0;39m ca.ucalgary.rules599.Rules599Application -  STARTING Rules599 APPLICATION
+DESKTOP-V3TA1NH RuleGenerator 13:03:44.854 [32m[main][0;39m [1;31mERROR[0;39m org.springframework.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@7dc7cbad - There is no conversion class registered for conversion word [s]
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@7dc7cbad - [s] is not a valid conversion word
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@d2cc05a - There is no conversion class registered for conversion word [s]
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@d2cc05a - [s] is not a valid conversion word
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@78b729e6 - There is no conversion class registered for conversion word [s]
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@78b729e6 - [s] is not a valid conversion word
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@6b4a4e18 - There is no conversion class registered for conversion word [s]
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@6b4a4e18 - [s] is not a valid conversion word
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:276)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:237)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:200)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:173)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:127)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:74)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:54)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:358)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:317)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1255)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1243)
+	at ca.ucalgary.rules599.Rules599Application.main(Rules599Application.java:37)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:48)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:87)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:50)
+	at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:51)
+Caused by: java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@7dc7cbad - There is no conversion class registered for conversion word [s]
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@7dc7cbad - [s] is not a valid conversion word
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@d2cc05a - There is no conversion class registered for conversion word [s]
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@d2cc05a - [s] is not a valid conversion word
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@78b729e6 - There is no conversion class registered for conversion word [s]
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@78b729e6 - [s] is not a valid conversion word
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@6b4a4e18 - There is no conversion class registered for conversion word [s]
+ERROR in ch.qos.logback.core.pattern.parser.Compiler@6b4a4e18 - [s] is not a valid conversion word
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:166)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithSpecificConfig(AbstractLoggingSystem.java:67)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:57)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:114)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:269)
+	... 22 common frames omitted

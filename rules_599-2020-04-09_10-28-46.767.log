@@ -1,0 +1,29 @@
+DESKTOP-V3TA1NH RuleGenerator 10:28:47.356 [32m[main][0;39m [34mINFO[0;39m ca.ucalgary.rules599.Rules599Application -  STARTING Rules599 APPLICATION
+DESKTOP-V3TA1NH RuleGenerator 10:28:48.387 [32m[main][0;39m [1;31mERROR[0;39m org.springframework.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in c.q.l.core.rolling.DefaultTimeBasedFileNamingAndTriggeringPolicy - Filename pattern [rules_599-%d{yyyy-MM-dd}.%i.log.gz] contains an integer token converter, i.e. %i, INCOMPATIBLE with this configuration. Remove it.
+ERROR in c.q.l.core.rolling.DefaultTimeBasedFileNamingAndTriggeringPolicy - Filename pattern [rules_599-%d{yyyy-MM-dd}.%i.log.gz] contains an integer token converter, i.e. %i, INCOMPATIBLE with this configuration. Remove it.
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:276)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:237)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:200)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:173)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:127)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:74)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:54)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:358)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:317)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1255)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1243)
+	at ca.ucalgary.rules599.Rules599Application.main(Rules599Application.java:37)
+Caused by: java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in c.q.l.core.rolling.DefaultTimeBasedFileNamingAndTriggeringPolicy - Filename pattern [rules_599-%d{yyyy-MM-dd}.%i.log.gz] contains an integer token converter, i.e. %i, INCOMPATIBLE with this configuration. Remove it.
+ERROR in c.q.l.core.rolling.DefaultTimeBasedFileNamingAndTriggeringPolicy - Filename pattern [rules_599-%d{yyyy-MM-dd}.%i.log.gz] contains an integer token converter, i.e. %i, INCOMPATIBLE with this configuration. Remove it.
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:166)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithSpecificConfig(AbstractLoggingSystem.java:67)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:57)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:114)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:269)
+	... 14 common frames omitted

@@ -83,7 +83,6 @@ public class AccidentData implements IAccidentData{
 
 
     public AccidentData getRushHour(){
-
         AggregateData aggregateData = getAggregateData();
         int visibility = Visibility_PreProcessing.evaluate_visibility(getCollision().getC_YEAR(),getCollision().getC_MNTH(),getCollision().getC_WDAY(),getCollision().getC_HOUR(),getCollision().getC_WTHR(),getCollision().getC_RALN());
         boolean rush_hour =RushHour_PreProcessing.evaluate_rush_hour(getCollision().getC_YEAR(),getCollision().getC_MNTH(),getCollision().getC_WDAY(),getCollision().getC_HOUR());
