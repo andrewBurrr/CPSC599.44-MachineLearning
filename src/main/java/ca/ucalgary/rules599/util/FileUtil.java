@@ -1,6 +1,8 @@
 package ca.ucalgary.rules599.util;
 
 import ca.ucalgary.rules599.model.AccidentData;
+import ca.ucalgary.rules599.model.Item;
+import ca.ucalgary.rules599.rules.Output;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -97,6 +99,7 @@ public final class FileUtil {
         }
         writer.close();
     }
+
 
 }
 

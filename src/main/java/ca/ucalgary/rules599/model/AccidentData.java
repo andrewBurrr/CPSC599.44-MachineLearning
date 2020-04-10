@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Getter
 @Setter
 @Builder
@@ -29,8 +28,6 @@ public class AccidentData implements IAccidentData{
     Person person;
     Vehicle vehicle;
     AggregateData aggregateData;
-
-
     @Override
     public final int compareTo(@NotNull final Item o) {
         return toString().compareTo(o.toString());

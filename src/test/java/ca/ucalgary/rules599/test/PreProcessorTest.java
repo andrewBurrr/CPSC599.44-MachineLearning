@@ -6,11 +6,12 @@ import ca.ucalgary.rules599.model.*;
 import ca.ucalgary.rules599.rules.Apriori;
 import ca.ucalgary.rules599.rules.Output;
 import ca.ucalgary.rules599.rules.RuleSet;
+import ca.ucalgary.rules599.util.FileUtil;
 import org.junit.Before;
 import org.junit.Test;
 
 
-import java.io.File;
+import java.io.*;
 import java.util.List;
 
 import static ca.ucalgary.rules599.test.AbstractDataTest.INPUT_FILE_1;
@@ -77,6 +78,18 @@ public class PreProcessorTest {
         configuration.setRuleCount(ruleCount);
 
         Output actualData = processor.generateApriori("src/test/resources/drivers.csv",null, configuration);
+        //FileUtil.createFile("",actualData);
+        try {
+            FileOutputStream fileOutputStream= new FileOutputStream("src/test/resources/output.txt");
+            ObjectOutputStream objectOutputStream= new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(actualData);
+            objectOutputStream.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         assertNotNull(actualData);
     }
 
