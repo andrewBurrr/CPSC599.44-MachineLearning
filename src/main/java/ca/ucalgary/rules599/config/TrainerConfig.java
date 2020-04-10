@@ -2,10 +2,13 @@ package ca.ucalgary.rules599.config;
 
 
 import lombok.Data;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+@SpringBootConfiguration
 @Component
 @ConfigurationProperties("trainer.metrics")
 @Data

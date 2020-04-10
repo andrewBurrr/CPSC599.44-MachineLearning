@@ -16,7 +16,7 @@ function Get-Project {
 }
 
 function Get-Jar {
-	cd CPSC599.44-MachineLearning;
+	# cd CPSC599.44-MachineLearning;
 	mvn clean install;
 }
 
@@ -26,7 +26,7 @@ function Run-Program {
 
 function Main {
 	Get-Maven;
-	Get-Project; # comment this out if the project is already included
+	# Get-Project; # comment this out if the project is already included
 	Get-Jar; # this should be a separate step for submission (likely just an instruction in a readme.md)
 	Run-Program; # also in a readme.md
 }
