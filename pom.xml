@@ -16,6 +16,10 @@
     <packaging>jar</packaging>
     <name>rules_599</name>
 
+    <properties>
+        <maven.test.skip>true</maven.test.skip>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

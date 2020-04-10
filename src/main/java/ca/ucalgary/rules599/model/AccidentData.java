@@ -1,6 +1,8 @@
 package ca.ucalgary.rules599.model;
 
 
+import ca.ucalgary.rules599.Training.Visibility_PreProcessing;
+import ca.ucalgary.rules599.model.RushHour_PreProcessing;
 import ca.ucalgary.rules599.util.CsvWriter;
 import ca.ucalgary.rules599.util.Logger599;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
@@ -77,5 +79,18 @@ public class AccidentData implements IAccidentData{
                             + "),C_TRAF(" + collision.getC_TRAF()+ "),P_SEX(" + person.getP_SEX() + "),P_AGE(" + person.getP_AGE() + "),P_PSN(" + person.getP_PSN() + "),P_ISEV(" + person.getP_ISEV()
                     + "),P_SAFE(" + person.getP_SAFE() + "),P_USER(" +person.getP_USER() + "),V_TYPE(" + vehicle.getV_TYPE() + "),V_YEAR(" +vehicle.getV_YEAR();
 
+    }
+
+
+    public AccidentData getRushHour(){
+
+        AggregateData aggregateData = getAggregateData();
+        int visibility = Visibility_PreProcessing.evaluate_visibility(getCollision().getC_YEAR(),getCollision().getC_MNTH(),getCollision().getC_WDAY(),getCollision().getC_HOUR(),getCollision().getC_WTHR(),getCollision().getC_RALN());
+        boolean rush_hour =RushHour_PreProcessing.evaluate_rush_hour(getCollision().getC_YEAR(),getCollision().getC_MNTH(),getCollision().getC_WDAY(),getCollision().getC_HOUR());
+        aggregateData.setVisibility(visibility);
+        aggregateData.setTrafficScore(Boolean.compare(rush_hour,false));
+        setAggregateData(aggregateData);
+
+        return AccidentData.builder().aggregateData(aggregateData).collision(getCollision()).vehicle(getVehicle()).person(getPerson()).build();
     }
 }

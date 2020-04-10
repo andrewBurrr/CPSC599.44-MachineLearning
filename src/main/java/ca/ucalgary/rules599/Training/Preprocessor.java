@@ -2,6 +2,7 @@ package ca.ucalgary.rules599.Training;
 
 import ca.ucalgary.rules599.model.AccidentData;
 import ca.ucalgary.rules599.model.AccidentFilter;
+import ca.ucalgary.rules599.model.RushHour_PreProcessing;
 import ca.ucalgary.rules599.util.CsvWriter;
 import ca.ucalgary.rules599.util.FileUtil;
 import ca.ucalgary.rules599.util.Logger599;
@@ -58,7 +59,10 @@ public class Preprocessor {
                 .map(c -> extendAccidentData.apply(c,filteredList))
                 .collect(Collectors.toList());
         try {
-            List<String> stringList = accidentDataList.stream().map(x -> x.getString()).collect(Collectors.toList());
+
+            //call Ben's function
+            List<AccidentData> accidentDataList1 = accidentDataList.stream().map(d -> d.getRushHour()).collect(Collectors.toList());
+            List<String> stringList = accidentDataList1.stream().map(x ->  x.getString()).collect(Collectors.toList());
             FileUtil.createFile("src/test/resources/drivers.csv",stringList);
 
             //CsvWriter.OpenCSVWriter(accidentDataList,"src/test/resources/drivers.csv");
@@ -70,11 +74,14 @@ public class Preprocessor {
         return accidentDataList;
     }
 
+
     BiFunction<AccidentData,Map<AccidentFilter,Long>,AccidentData> extendAccidentData = (c,b) ->{
        Optional<AccidentFilter> personCount = b.keySet().stream()
                 .filter(c::applyFilter)
                 .findFirst();
         if(personCount.isPresent()) {
+            // # of injuries + k (# of deaths)/ total passengers(incl. driver) s.t. k >= 2
+            // parameterize the weighting of deaths in the severity score to change rules created
             return new AccidentData(c,b.get(personCount.get())+1L);  //add the driver
         }else {
             return new AccidentData(c,1L); //only the driver in the car
