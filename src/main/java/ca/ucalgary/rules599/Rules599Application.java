@@ -7,6 +7,7 @@ import ca.ucalgary.rules599.util.Logger599;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SpringBootApplication
 public class Rules599Application implements CommandLineRunner {
 
     private static final String PARSER = "\\s*(?<verbose>(?:-v|--verbose)\\s(?:[0-7]))\\s(?:(?<config>-c|--config)|(?:(?<input>(?:-i|--input)\\s(?:\\S+\\.txt))\\s(?<output>(?:-o|--output)\\s(?:\\S+\\.txt))\\s(?<weights>(?:-w|--weights)(?:\\s+(?:[1-9][0-9]*))+)))\\s*";
