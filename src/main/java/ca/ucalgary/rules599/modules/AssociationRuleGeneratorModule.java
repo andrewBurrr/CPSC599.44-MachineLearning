@@ -90,10 +90,15 @@ public class AssociationRuleGeneratorModule<ItemType extends Item> implements As
         LOGGER.debug("Generating association rules");
         RuleSet<ItemType> ruleSet = new RuleSet<>(Sorting.forAssociationRules());
 
+        LOGGER.debug("Total Number of items" + frequentItemSets.size());
+        int count=1;
         for (ItemSet<ItemType> itemSet : frequentItemSets.values()) {
+            LOGGER.debug("Running rules for " + count);
             if (itemSet.size() > 1) {
+                LOGGER.debug("rules for item" + itemSet.hashCode());
                 generateRules(itemSet, frequentItemSets, ruleSet, minConfidence);
             }
+            count++;
         }
 
         LOGGER.debug("Generated {} association rules", ruleSet.size());

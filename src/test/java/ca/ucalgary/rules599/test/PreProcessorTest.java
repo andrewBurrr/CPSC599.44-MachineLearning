@@ -2,6 +2,7 @@ package ca.ucalgary.rules599.test;
 
 import ca.ucalgary.rules599.Training.Preprocessor;
 import ca.ucalgary.rules599.Training.Processor;
+import ca.ucalgary.rules599.datastructure.TransactionalItemSet;
 import ca.ucalgary.rules599.model.*;
 import ca.ucalgary.rules599.rules.Apriori;
 import ca.ucalgary.rules599.rules.Output;
@@ -12,6 +13,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import static ca.ucalgary.rules599.test.AbstractDataTest.INPUT_FILE_1;
 import static org.junit.Assert.assertEquals;
@@ -37,15 +39,30 @@ public class PreProcessorTest {
     @Test
     public final void InitialLoadTest() {
         File file = new File(INPUT_FILE_1);
-        List<AccidentData> actualData = preprocessor.processInitialData(file);
+        List<AccidentData> actualData = preprocessor.processInitialData(file,"src/test/resources/output.txt");
         assertEquals(actualData.size(), 749);
     }
 
     @Test
     public final void InitialProcessingTest() {
-        RuleSet actualData = processor.generateRules("src/test/resources/drivers.csv",0.5, 0.5);
+        RuleSet actualData = processor.generateRules("src/test/resources/driversTest.csv",0.8, 0.8);
         assertNotNull(actualData);
     }
+
+
+    @Test
+    public final void InitialProcessingGenerateFrequentItemsTest() {
+        Map<Integer, TransactionalItemSet<AccidentAttribute>> actualData = processor.findFrequentItemSets("src/test/resources/driversTest.csv",0.8);
+        assertNotNull(actualData);
+    }
+
+
+    @Test
+    public final void InitialProcessingGenerateGeneticFrequentItemsTest() {
+        List<Map<String, int[]>> actualData = processor.findGeneticFrequentItemSets("src/test/resources/driversTest.csv",0.8,"src/test/resources/accidentAttributeValues.yml");
+        assertNotNull(actualData);
+    }
+
 
 
     /**
@@ -57,15 +74,15 @@ public class PreProcessorTest {
     @Test
     public final void InitialProcessingTestApriori() {
         Apriori.Configuration configuration = new Apriori.Configuration();
-        double minSupport = 0.3;
+        double minSupport = 0.5;
         double maxSupport = 0.8;
         double supportDelta = 0.2;
-        int frequentItemSetCount = 1000;
+        int frequentItemSetCount = 500;
         boolean generateRules = true;
         double minConfidence = 0.8;
         double maxConfidence = 0.9;
         double confidenceDelta = 0.2;
-        int ruleCount = 1200;
+        int ruleCount = 400;
         configuration.setMinSupport(minSupport);
         configuration.setMaxSupport(maxSupport);
         configuration.setSupportDelta(supportDelta);
@@ -76,7 +93,7 @@ public class PreProcessorTest {
         configuration.setConfidenceDelta(confidenceDelta);
         configuration.setRuleCount(ruleCount);
 
-        Output actualData = processor.generateApriori("src/test/resources/drivers.csv",null, configuration);
+        Output actualData = processor.generateApriori("src/test/resources/driversTest.csv",null, configuration);
         assertNotNull(actualData);
     }
 

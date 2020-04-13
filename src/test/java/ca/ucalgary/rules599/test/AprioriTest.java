@@ -516,7 +516,6 @@ public class AprioriTest extends AbstractDataTest {
         Apriori<AccidentAttribute> apriori = new Apriori<>(configuration, frequentItemSetMinerTask,
                 associationRuleGeneratorTask);
         Output<AccidentAttribute> output = apriori.execute(() -> new DataIterator(file,1,true));
-        //
         assertEquals(configuration, output.getConfiguration());
         assertEquals(ruleSet, output.getRuleSet());
         SortedSet<ItemSet<AccidentAttribute>> set = output.getFrequentItemSets();

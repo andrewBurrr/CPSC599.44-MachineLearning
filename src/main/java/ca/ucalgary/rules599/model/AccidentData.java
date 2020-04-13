@@ -1,8 +1,8 @@
 package ca.ucalgary.rules599.model;
 
 
+import ca.ucalgary.rules599.Training.RushHour_PreProcessing;
 import ca.ucalgary.rules599.Training.Visibility_PreProcessing;
-import ca.ucalgary.rules599.model.RushHour_PreProcessing;
 import ca.ucalgary.rules599.util.CsvWriter;
 import ca.ucalgary.rules599.util.Logger599;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
@@ -77,7 +77,7 @@ public class AccidentData implements IAccidentData{
                     Integer.toString(aggregateData.getTrafficScore()) + "),PassengerPositioning(" + Integer.toString(aggregateData.getPassengerPositioning())+ "),C_YEAR(" +collision.getC_YEAR()+ "),C_MNTH(" + collision.getC_MNTH()+ "),C_WDAY(" +collision.getC_WDAY() + "),C_HOUR(" + collision.getC_HOUR() + "),C_SEV(" + collision.getC_SEV() + "),C_VEHS(" + collision.getC_VEHS()
                             + "),C_CONF(" + collision.getC_CONF() + "),C_RCFG(" + collision.getC_RCFG() + "),C_WTHR(" + collision.getC_WTHR() + "),C_RSUR(" + collision.getC_RSUR() + "),C_RALN(" + collision.getC_RALN()
                             + "),C_TRAF(" + collision.getC_TRAF()+ "),P_SEX(" + person.getP_SEX() + "),P_AGE(" + person.getP_AGE() + "),P_PSN(" + person.getP_PSN() + "),P_ISEV(" + person.getP_ISEV()
-                    + "),P_SAFE(" + person.getP_SAFE() + "),P_USER(" +person.getP_USER() + "),V_TYPE(" + vehicle.getV_TYPE() + "),V_YEAR(" +vehicle.getV_YEAR();
+                    + "),P_SAFE(" + person.getP_SAFE() + "),P_USER(" +person.getP_USER() + "),V_TYPE(" + vehicle.getV_TYPE() + "),V_YEAR(" +vehicle.getV_YEAR() + ")";
 
     }
 
@@ -85,7 +85,7 @@ public class AccidentData implements IAccidentData{
     public AccidentData getRushHour(){
         AggregateData aggregateData = getAggregateData();
         int visibility = Visibility_PreProcessing.evaluate_visibility(getCollision().getC_YEAR(),getCollision().getC_MNTH(),getCollision().getC_WDAY(),getCollision().getC_HOUR(),getCollision().getC_WTHR(),getCollision().getC_RALN());
-        boolean rush_hour =RushHour_PreProcessing.evaluate_rush_hour(getCollision().getC_YEAR(),getCollision().getC_MNTH(),getCollision().getC_WDAY(),getCollision().getC_HOUR());
+        boolean rush_hour = RushHour_PreProcessing.evaluate_rush_hour(getCollision().getC_YEAR(),getCollision().getC_MNTH(),getCollision().getC_WDAY(),getCollision().getC_HOUR());
         aggregateData.setVisibility(visibility);
         aggregateData.setTrafficScore(Boolean.compare(rush_hour,false));
         setAggregateData(aggregateData);

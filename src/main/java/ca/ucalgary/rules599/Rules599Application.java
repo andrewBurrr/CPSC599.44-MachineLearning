@@ -2,12 +2,18 @@ package ca.ucalgary.rules599;
 
 import ca.ucalgary.rules599.Training.EvolutionaryAlgorithm;
 import ca.ucalgary.rules599.config.TrainerConfig;
+import ca.ucalgary.rules599.rules.Apriori;
 import ca.ucalgary.rules599.util.Logger599;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.yaml.snakeyaml.Yaml;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -29,10 +35,12 @@ public class Rules599Application implements CommandLineRunner {
     /** {@link String} regular expression to match weights and capture number list group*/
     private static final String WEIGHTS = "(?<weights>(?:-w|--weights)(?:\\s+(?:[1-9][0-9]*))+)";
     private static Logger599 LOG = new Logger599(Rules599Application.class.getName());
+    private static boolean runPreProcessor;
+    private static boolean runProcessor;
+    private static boolean runPostProcessor;
 
     @Autowired
     TrainerConfig trainerConfig;
-
 
     public static void main(String[] args) {
         LOG.info("STARTING Rules599 APPLICATION");
@@ -43,19 +51,27 @@ public class Rules599Application implements CommandLineRunner {
     @Override
     public void run(String... args) {
         LOG.info("EXECUTING : Rules599Application");
-        LinkedList<?> taskList;
+        HashMap<String,String> argParse = parseArgs(args);
         if (args.length < 3) {
             LOG.debug("Usage: java -jar AppName -v level [-c | -i input -o output -w weights]");
             System.exit(0);
-        } else {
-            HashMap<String,String> argParse = parseArgs(args);
-            taskList = (argParse.get("config") == null) ? runSettings(argParse.get("input"), argParse.get("output"), argParse.get("weights")) : runManySettings();
-            LOG.info("Begin execution flow of tasks:");
-            for (Object task : taskList) {
-                LOG.info("Training Instance ["+task.toString()+"]");
-                boolean result = new EvolutionaryAlgorithm(trainerConfig).processTrainer(task);
-            }
         }
+                LOG.info("Begin execution flow of tasks:");
+                LOG.info("Training Instance ");
+                String inputFile = argParse.get("input") == null ? trainerConfig.getInputFile(): argParse.get("input");
+                String outFile = argParse.get("output") == null ? trainerConfig.getOutputFile(): argParse.get("output");
+                String configFile = argParse.get("config") == null ? trainerConfig.getConfigFile(): argParse.get("config");
+                Apriori.Configuration configuration = getConfigurationFromFile(configFile);
+                if(runPreProcessor){
+                    new EvolutionaryAlgorithm(configuration).Preprocessor(inputFile, outFile);
+                }else if (runProcessor){
+                    new EvolutionaryAlgorithm(configuration).processor(inputFile, outFile, null); //Need to change this to pass in Existing Knowledge
+                }else if (runPostProcessor){
+                    //boolean result = new EvolutionaryAlgorithm(configuration).Preprocessor(inputFile, outFile);
+                }
+                else{
+                    LOG.error("Usage: java -jar AppName [-pre -pro -post] -v level [-c config -i input -o output -w weights]");
+                }
     }
 
 
@@ -86,35 +102,54 @@ public class Rules599Application implements CommandLineRunner {
         return result;
     }
 
-
-
     private static HashMap<String,String> parseArgs(String[] args) {
-        Pattern pattern = Pattern.compile("^(?:\\s*"+VERBOSE+"\\s(?:"+CONFIG+"|(?:"+INPUT+"\\s"+OUTPUT+"\\s"+WEIGHTS+"))\\s*)$");
-        Matcher matcher = pattern.matcher(String.join(" ", args));
         HashMap<String,String> matches = new HashMap<>();
-        String[] group;
-        String key = "";
-        while (matcher.find()) {
-            for (int i = 1; i <= matcher.groupCount(); i++) {
-                if (matcher.group(i) == null) continue;
-                group = matcher.group(i).split("\\s");
-                switch (group[0]) {
-                    case "-c": case "--config"  : key = "config"; break;
-                    case "-i": case "--input"   : key = "input" ; break;
-                    case "-o": case "--output"  : key = "output"; break;
-                    case "-v": case "--verbose" : key = "verbose"; break;
-                    case "-w": case "--weights" : key = "weights"; break;
+
+            for (int i = 0; i <= args.length-1; i++) {
+                switch (args[i].toLowerCase()) {
+                    case "-c": case "--config"  : matches.put("config",args[i+1].toLowerCase()); break;
+                    case "-i": case "--input"   : matches.put("input",args[i+1].toLowerCase()); break;
+                    case "-o": case "--output"  : matches.put("output",args[i+1].toLowerCase()); break;
+                    case "-v": case "--verbose" : matches.put("verbose",""); break;
+                    case "-w": case "--weights" : matches.put("weights",args[i+1].toLowerCase()); break;
+                    case "-pre": case "preprocessor": runPreProcessor=true; break;
+                    case "-pro": case "processor":  runProcessor=true; break;
+                    case "-post": case "postprocessor": runPostProcessor=true; break;
+                    case "-all": runPreProcessor=true; runProcessor=true; runPostProcessor=true; break;
+                    case "-help":
+                        System.out.println();
+                        System.out.println("rules599");
+                        System.out.println();
+                        System.out.println("-c   --config           Path to the Configuration for the system");
+                        System.out.println("-i   --input            Path to the input file");
+                        System.out.println("-o   --output           Path to the Output file");
+                        System.out.println("-w   --output           Path to the Output file");
+                        System.out.println("-pre --weights          Weight assigned.");
+                        System.out.println("-pro --processor        Operation is Processing only.");
+                        System.out.println("-post --postprocessor   Operation is Postprocessing only.");
+                        System.out.println("-all                    Operation Perform all Pre-Processing, processing and Post Processing.");
+                        System.out.println("-help                   Show this help.");
+                        System.out.println();
+                        System.exit(0);
                 }
-                if (group.length < 2)
-                    matches.put(key, "true");
-                else if (group.length > 2)
-                    matches.put(key, String.join(" ", (String[]) Arrays.copyOfRange(group,1,group.length-1)));
-                else
-                    matches.put(key, group[1]);
             }
-        }
+
         for (String mapKey : matches.keySet()) LOG.info("Arg[" + mapKey + "]: " + matches.get(mapKey));
         LOG.info("Arguments Parsed");
         return matches;
     }
+
+
+    private Apriori.Configuration getConfigurationFromFile(String fileName){
+        Yaml yaml = new Yaml();
+        Apriori.Configuration config = new Apriori.Configuration();
+        try( InputStream in = Files.newInputStream(Paths.get(fileName))) {
+            config = yaml.loadAs( in, Apriori.Configuration.class );
+            System.out.println( config.toString() );
+        }catch (IOException e){
+            LOG.error(e.getMessage());
+        }
+        return config;
+    }
+
 }

@@ -1,7 +1,6 @@
 package ca.ucalgary.rules599.Training;
 
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,7 +26,6 @@ import java.util.*;
  * @since 2020-04-07
  */
 public class Visibility_PreProcessing {
-
 
 //    public static void main(String[] args) {
 //        //String source_directory = "C:\\Users\\bille\\Desktop\\sunlight data";
@@ -133,8 +131,10 @@ public class Visibility_PreProcessing {
         int weather_index = 0;
         try {
             weather_index = Integer.parseInt(C_WTHR);
-        } catch (NumberFormatException nfe) {
-            System.out.printf("Unable to convert C_WTHR to int since it has the value '%s'\n", C_WTHR);
+        } catch (Exception nfe) {
+//            System.out.printf("Unable to convert C_WTHR to int since it has the value '%s'\n", C_WTHR);
+            System.out.printf("Unable to convert C_WTHR\n");
+
             // assume best case scenario
             return 1.0f;
         }
@@ -163,8 +163,10 @@ public class Visibility_PreProcessing {
         int road_index = 0;
         try {
             road_index = Integer.parseInt(C_RALN);
-        } catch (NumberFormatException nfe) {
-            System.out.printf("Unable to convert C_RALN to int since it has the value '%s'\n", C_RALN);
+        } catch (Exception nfe) {
+//            System.out.printf("Unable to convert C_RALN to int since it has the value '%s'\n", C_RALN);
+            System.out.printf("Unable to convert C_RALN\n");
+
             // assume best case scenario
             return 1.0f;
         }
@@ -190,8 +192,10 @@ public class Visibility_PreProcessing {
         int hour = -1;
         try {
             hour = Integer.parseInt(C_HOUR);
-        } catch (NumberFormatException nfe) {
-            System.out.printf("Unable to convert C_HOUR to int since it has the value '%s'\n", C_HOUR);
+        } catch (Exception nfe) {
+//            System.out.printf("Unable to convert C_HOUR to int since it has the value '%s'\n", C_HOUR);
+            System.out.printf("Unable to convert C_HOUR\n");
+
             return 1.0f;    // assume best case sunlight value
         }
         // range check
@@ -201,14 +205,26 @@ public class Visibility_PreProcessing {
         // check if hour is between sunset and sunrise
         // hence hour happened at night
         LocalTime sunset = Visibility_PreProcessing.get_sunset(C_YEAR, C_MNTH, C_WDAY);
+        if (sunset == null) {
+            return 1.0f;
+        }
         LocalTime sunrise = Visibility_PreProcessing.get_sunrise(C_YEAR, C_MNTH, C_WDAY);
+        if (sunrise == null) {
+            return 1.0f;
+        }
         if (hour>sunset.getHour() || hour<sunrise.getHour() ) {
             return 0.0f;
         }
 
         // compute sunlight value relative to how close it is to solarnoon
         LocalTime solarnoon = Visibility_PreProcessing.get_solarnoon(C_YEAR, C_MNTH, C_WDAY);
+        if (solarnoon == null) {
+            return 1.0f;
+        }
         LocalTime daylength = Visibility_PreProcessing.get_daylength(C_YEAR, C_MNTH, C_WDAY);
+        if (daylength == null) {
+            return 1.0f;
+        }
         Float penalty = Math.abs((float) (solarnoon.getHour() - hour));
         penalty /= daylength.getHour();
         Float sunlight_value = 1.0f - penalty;
@@ -222,7 +238,6 @@ public class Visibility_PreProcessing {
     // **                                                                           **
     // *******************************************************************************
 
-    //@Value("${sunrise.data}") String source_directory;
     public static String source_directory = "src/main/java/ca/ucalgary/rules599/Training/sunlightData";
     // [0] = sunrise
     // [1] = sunset
@@ -274,8 +289,8 @@ public class Visibility_PreProcessing {
                     C_YEAR_int, C_MNTH_int, C_WDAY_int);
         }
 
-        System.out.printf("average sunrise at %s-%s-%s = %s\n",
-                C_YEAR, C_MNTH_int, C_WDAY, year_data[C_MNTH_int-1][C_WDAY_int%7].toString());
+//        System.out.printf("average sunrise at %s-%s-%s = %s\n",
+//                C_YEAR, C_MNTH_int, C_WDAY, year_data[C_MNTH_int-1][C_WDAY_int%7].toString());
         return year_data[C_MNTH_int-1][C_WDAY_int%7];
     }
 
@@ -314,8 +329,8 @@ public class Visibility_PreProcessing {
                     C_YEAR_int, C_MNTH_int, C_WDAY_int);
         }
 
-        System.out.printf("average sunset at %s-%s-%s = %s\n",
-                C_YEAR, C_MNTH_int, C_WDAY, year_data[C_MNTH_int-1][C_WDAY_int%7].toString());
+//        System.out.printf("average sunset at %s-%s-%s = %s\n",
+//                C_YEAR, C_MNTH_int, C_WDAY, year_data[C_MNTH_int-1][C_WDAY_int%7].toString());
         return year_data[C_MNTH_int-1][C_WDAY_int%7];
     }
 
@@ -353,8 +368,8 @@ public class Visibility_PreProcessing {
                     C_YEAR_int, C_MNTH_int, C_WDAY_int);
         }
 
-        System.out.printf("average solarnoon at %s-%s-%s = %s\n",
-                C_YEAR, C_MNTH_int, C_WDAY, year_data[C_MNTH_int-1][C_WDAY_int%7].toString());
+//        System.out.printf("average solarnoon at %s-%s-%s = %s\n",
+//                C_YEAR, C_MNTH_int, C_WDAY, year_data[C_MNTH_int-1][C_WDAY_int%7].toString());
         return year_data[C_MNTH_int-1][C_WDAY_int%7];
     }
 
@@ -392,8 +407,8 @@ public class Visibility_PreProcessing {
                     C_YEAR_int, C_MNTH_int, C_WDAY_int);
         }
 
-        System.out.printf("average daylength at %s-%s-%s = %s\n",
-                C_YEAR, C_MNTH_int, C_WDAY, year_data[C_MNTH_int-1][C_WDAY_int%7].toString());
+//        System.out.printf("average daylength at %s-%s-%s = %s\n",
+//                C_YEAR, C_MNTH_int, C_WDAY, year_data[C_MNTH_int-1][C_WDAY_int%7].toString());
         return year_data[C_MNTH_int-1][C_WDAY_int%7];
     }
 
@@ -431,10 +446,13 @@ public class Visibility_PreProcessing {
 
     private static Integer convert_C_MNTH(String C_MNTH) {
         try {
-            return Integer.parseInt(C_MNTH);
+            Integer C_MNTH_int = Integer.parseInt(C_MNTH);
+            return C_MNTH_int;
 
         } catch (Exception e) {
-            System.out.printf("Failed to convert C_MNTH=%s into integer\n", C_MNTH);
+//            System.out.printf("Failed to convert C_MNTH=%s into integer\n", C_MNTH);
+            System.out.printf("Unable to convert C_MNTH\n");
+
             return null;
         }
     }
@@ -442,25 +460,30 @@ public class Visibility_PreProcessing {
     public static Integer convert_C_YEAR(String C_YEAR) {
         try {
             Integer C_YEAR_int = Integer.parseInt(C_YEAR);
-            if (C_YEAR_int <= 20) {
-                C_YEAR_int += 2000;
-            } else {
-                C_YEAR_int += 1900;
-            }
+//            if (C_YEAR_int <= 20) {
+//                C_YEAR_int += 2000;
+//            } else {
+//                C_YEAR_int += 1900;
+//            }
             return C_YEAR_int;
 
         } catch (Exception e) {
-            System.out.printf("Failed to convert C_YEAR=%s into integer\n", C_YEAR);
+//            System.out.printf("Failed to convert C_YEAR=%s into integer\n", C_YEAR);
+            System.out.printf("Unable to convert C_YEAR\n");
+
             return null;
         }
     }
 
     private static Integer convert_C_WDAY(String C_WDAY) {
         try {
-            return Integer.parseInt(C_WDAY);
+            Integer C_WDAY_int = Integer.parseInt(C_WDAY);
+            return C_WDAY_int;
 
         } catch (Exception e) {
-            System.out.printf("Failed to convert C_WDAY=%s into integer\n", C_WDAY);
+//            System.out.printf("Failed to convert C_WDAY=%s into integer\n", C_WDAY);
+            System.out.printf("Unable to convert C_WDAY\n");
+
             return null;
         }
     }
@@ -491,25 +514,36 @@ public class Visibility_PreProcessing {
                         System.out.printf("Unable to parse file: %s\n", txt_file.getAbsolutePath());
                     }
                 }
+            }else{
+
+                LocalDateTime[][][] city_data_for_one_year = Visibility_PreProcessing.parse_annual_city_data(dir);
+                if (city_data_for_one_year != null) {
+                    Integer year = city_data_for_one_year[0][0][0].getYear();
+                    city_sunlight_data.put(year, city_data_for_one_year);
+//                        System.out.printf("Processed file: %s\n", txt_file.getName());
+
+                } else {
+                    System.out.printf("Unable to parse file: %s\n", dir.getAbsolutePath());
+                }
             }
             String city_name = dir.getName();
             cities_sunlight_data.put(city_name, city_sunlight_data);
             System.out.printf("Processed city: %s\n\n", city_name);
 
 //            Iterator<Integer> years_processed = city_sunlight_data.keySet().iterator();
-////            while (years_processed.hasNext()) {
-////                Integer current_year = years_processed.next();
-////                System.out.printf("Year %d\n", current_year);
-////                LocalDateTime[][][] year_data = city_sunlight_data.get(current_year);
-////                System.out.printf("%d has %d months\n", current_year, year_data.length);
-////
-////                // check that each months contain valid days
-////                for (int i=0; i<year_data.length; i++) {
-////                    System.out.printf("Month %d has %d days\n", (i+1), year_data[i].length);
-////                    System.out.printf("first day of month: %s\n", year_data[i][0][0].toString());
-////                    System.out.printf("last day of month: %s\n", year_data[i][year_data[i].length-1][0].toString());
-////                }
-////            }
+//            while (years_processed.hasNext()) {
+//                Integer current_year = years_processed.next();
+//                System.out.printf("Year %d\n", current_year);
+//                LocalDateTime[][][] year_data = city_sunlight_data.get(current_year);
+//                System.out.printf("%d has %d months\n", current_year, year_data.length);
+//
+//                // check that each months contain valid days
+//                for (int i=0; i<year_data.length; i++) {
+//                    System.out.printf("Month %d has %d days\n", (i+1), year_data[i].length);
+//                    System.out.printf("first day of month: %s\n", year_data[i][0][0].toString());
+//                    System.out.printf("last day of month: %s\n", year_data[i][year_data[i].length-1][0].toString());
+//                }
+//            }
         }
         return cities_sunlight_data;
     }
@@ -692,7 +726,7 @@ public class Visibility_PreProcessing {
             return true;
 
         } catch (Exception e) {
-            System.out.printf("%s is not a year\n", year_string);
+//            System.out.printf("%s is not a year\n", year_string);
             return false;
         }
     }
@@ -740,7 +774,7 @@ public class Visibility_PreProcessing {
         }
         catch (Exception e)
         {
-            System.err.format("Exception occurred trying to read '%s'.", filename);
+//            System.err.format("Exception occurred trying to read '%s'.", filename);
             e.printStackTrace();
             return null;
         }

@@ -27,6 +27,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>2.1.6.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>16.0.1</version>
@@ -80,6 +87,12 @@
             <artifactId>mockito-core</artifactId>
             <version>2.22.0</version>
             <scope>test</scope>
+        </dependency>
+        <!-- blah blah blah -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.19</version>
         </dependency>
     </dependencies>
 

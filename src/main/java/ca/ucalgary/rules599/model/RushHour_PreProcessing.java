@@ -1,9 +1,6 @@
-package ca.ucalgary.rules599.Training;
+package ca.ucalgary.rules599.model;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Contains traffic data from TomTom's website

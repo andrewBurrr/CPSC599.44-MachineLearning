@@ -10,7 +10,10 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("trainer.metrics")
 @Data
 public class TrainerConfig {
-    public int support;
-    public Resource dataFile;
+    public String configFile;
+    public String inputFile;
+    public String outputFile;
+
+
 
 }
