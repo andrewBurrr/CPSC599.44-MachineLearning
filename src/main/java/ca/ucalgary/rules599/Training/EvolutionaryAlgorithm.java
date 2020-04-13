@@ -1,28 +1,58 @@
 package ca.ucalgary.rules599.Training;
 
-import ca.ucalgary.rules599.config.TrainerConfig;
+import ca.ucalgary.rules599.datastructure.TransactionalItemSet;
+import ca.ucalgary.rules599.model.AccidentAttribute;
 import ca.ucalgary.rules599.model.AccidentData;
-import org.springframework.beans.factory.annotation.Autowired;
+import ca.ucalgary.rules599.model.ItemSet;
+import ca.ucalgary.rules599.rules.*;
 
-import java.io.IOException;
+
+import java.io.*;
 import java.util.List;
+import java.util.Map;
 
 public class EvolutionaryAlgorithm {
-    private TrainerConfig trainerConfig;
 
-    @Autowired
-    public EvolutionaryAlgorithm(TrainerConfig trainerConfig){
-        this.trainerConfig=trainerConfig;
+private Apriori.Configuration configuration;
+
+
+    public EvolutionaryAlgorithm(Apriori.Configuration trainerConfig){
+        this.configuration=trainerConfig;
     }
 
-    public  Boolean processTrainer(Object tasklist){
-        try {
-            List<AccidentData> preprocessor = new Preprocessor().processInitialData(trainerConfig.getDataFile().getFile());
-
-        } catch (IOException e) {
-            e.printStackTrace();
+    public  Boolean Preprocessor(String inputFile, String outfile){
+     try {
+         List<AccidentData> preprocessor = new Preprocessor().processInitialData(new File(inputFile),outfile);
+        } catch (Exception e) {
+            System.out.println("Error initializing stream");
         }
+        return true;
+    }
 
+    public  Boolean processor(String fileName, String outFile, Map<Integer, TransactionalItemSet<AccidentAttribute>> frequentItemSet){
+        try {
+            Output<AccidentAttribute> output = new Processor().generateApriori(fileName,frequentItemSet, configuration);
+            FileOutputStream f = new FileOutputStream(new File(outFile));
+            ObjectOutputStream o = new ObjectOutputStream(f);
+
+            for(AssociationRule ruleSet : output.getRuleSet()) {
+                o.writeObject(ruleSet.toString());
+            }
+            // Write objects to file
+
+            for(ItemSet itemSet : output.getFrequentItemSets()) {
+                o.writeObject(itemSet.toString());
+            }
+
+            o.close();
+            f.close();
+
+        } catch (
+                FileNotFoundException e) {
+            System.out.println("File not found");
+        } catch (IOException e) {
+            System.out.println("Error initializing stream");
+        }
         return true;
     }
 

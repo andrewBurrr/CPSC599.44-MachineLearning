@@ -514,6 +514,17 @@ public class Visibility_PreProcessing {
                         System.out.printf("Unable to parse file: %s\n", txt_file.getAbsolutePath());
                     }
                 }
+            }else{
+
+                LocalDateTime[][][] city_data_for_one_year = Visibility_PreProcessing.parse_annual_city_data(dir);
+                if (city_data_for_one_year != null) {
+                    Integer year = city_data_for_one_year[0][0][0].getYear();
+                    city_sunlight_data.put(year, city_data_for_one_year);
+//                        System.out.printf("Processed file: %s\n", txt_file.getName());
+
+                } else {
+                    System.out.printf("Unable to parse file: %s\n", dir.getAbsolutePath());
+                }
             }
             String city_name = dir.getName();
             cities_sunlight_data.put(city_name, city_sunlight_data);

@@ -2,8 +2,6 @@ package ca.ucalgary.rules599.Training;
 
 import ca.ucalgary.rules599.model.AccidentData;
 import ca.ucalgary.rules599.model.AccidentFilter;
-import ca.ucalgary.rules599.model.RushHour_PreProcessing;
-import ca.ucalgary.rules599.util.CsvWriter;
 import ca.ucalgary.rules599.util.FileUtil;
 import ca.ucalgary.rules599.util.Logger599;
 
@@ -27,7 +25,7 @@ import static java.util.stream.Collectors.counting;
  */
 public class Preprocessor {
     private static Logger599 LOG = new Logger599(Preprocessor.class.getName());
-    public List<AccidentData> processInitialData(File file){
+    public List<AccidentData> processInitialData(File file, String outfile){
 
             List<AccidentData> inputList = new ArrayList<>();
             try{
@@ -39,7 +37,7 @@ public class Preprocessor {
             } catch (IOException e) {
 
             }
-            return getUpdatedDriverList(inputList);
+            return getUpdatedDriverList(inputList, outfile);
         }
 
     private Function<String, AccidentData> mapToItem = (line) -> {
@@ -48,7 +46,7 @@ public class Preprocessor {
     };
 
 
-    private List<AccidentData> getUpdatedDriverList(List<AccidentData> list) {
+    private List<AccidentData> getUpdatedDriverList(List<AccidentData> list, String outfile) {
         if (list.size() < 2) { // obvious case.
             return list;
         }
@@ -63,20 +61,22 @@ public class Preprocessor {
             //call Ben's function
             List<AccidentData> accidentDataList1 = accidentDataList.stream().map(d -> d.getRushHour()).collect(Collectors.toList());
             List<String> stringList = accidentDataList1.stream().map(x ->  x.getString()).collect(Collectors.toList());
-            FileUtil.createFile("src/test/resources/drivers.csv",stringList);
+            FileUtil.createFile(outfile,stringList);
 
             //CsvWriter.OpenCSVWriter(accidentDataList,"src/test/resources/drivers.csv");
             //CsvWriter.OpenCSVWriter(new ArrayList<>(filteredList.keySet()),"src/test/resources/filtered.csv");
 
+            LOG.info("PreProcessing Completed");
+
         } catch (Exception e) {
-               LOG.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         return accidentDataList;
     }
 
 
     BiFunction<AccidentData,Map<AccidentFilter,Long>,AccidentData> extendAccidentData = (c,b) ->{
-       Optional<AccidentFilter> personCount = b.keySet().stream()
+        Optional<AccidentFilter> personCount = b.keySet().stream()
                 .filter(c::applyFilter)
                 .findFirst();
         if(personCount.isPresent()) {
@@ -88,7 +88,6 @@ public class Preprocessor {
         }
 
     };
-
 
 }
 

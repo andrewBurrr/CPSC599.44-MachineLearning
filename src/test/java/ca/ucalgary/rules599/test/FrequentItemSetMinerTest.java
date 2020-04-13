@@ -65,4 +65,5 @@ public class FrequentItemSetMinerTest extends AbstractDataTest {
                 .findFrequentItemSets(() -> new DataIterator(inputFile,1,true), 1.1);
     }
 
+
 }
