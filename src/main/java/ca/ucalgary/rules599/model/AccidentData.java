@@ -35,13 +35,13 @@ public class AccidentData implements IAccidentData{
     public final int compareTo(@NotNull final Item o) {
         return toString().compareTo(o.toString());
     }
-    public AccidentData(AccidentData accidentData, Long kount){
+    public AccidentData(AccidentData accidentData, int kount, String crashSeverity){
         Logger599 LOG = new Logger599(AccidentData.class.getName());
      try{
         this.collision=accidentData.getCollision();
         this.person=accidentData.getPerson();
         this.vehicle=accidentData.getVehicle();
-        this.aggregateData = AggregateData.builder().visibility(0).trafficScore(0).passengerPositioning(0).noOfPerson(Long.valueOf(kount).intValue()).build();
+        this.aggregateData = AggregateData.builder().visibility(0).trafficScore(0).crashSevirity(crashSeverity).noOfPerson(Long.valueOf(kount).intValue()).build();
     } catch (Exception e) {
      LOG.info("Error Was " + e);
     }
@@ -64,8 +64,8 @@ public class AccidentData implements IAccidentData{
         return AccidentFilter.builder().collision(getCollision()).vehicle(getVehicle()).build();
     }
 
-    public boolean applyFilter(AccidentFilter accidentFilter){
-        return getCollision() == accidentFilter.getCollision() && getVehicle() == accidentFilter.getVehicle();
+    public boolean applyFilter(AccidentData accidentFilter){
+        return getCollision().equals(accidentFilter.getCollision()) && getVehicle().equals(accidentFilter.getVehicle());
     }
 
     public Boolean findPassengers(AccidentFilter accidentFilter){
@@ -74,7 +74,7 @@ public class AccidentData implements IAccidentData{
 
     public String getString(){
             return "NoOfPerson(" + Integer.toString(aggregateData.getNoOfPerson())+ "),Visibility(" + Integer.toString(aggregateData.getVisibility())+ "),TrafficScore(" +
-                    Integer.toString(aggregateData.getTrafficScore()) + "),PassengerPositioning(" + Integer.toString(aggregateData.getPassengerPositioning())+ "),C_YEAR(" +collision.getC_YEAR()+ "),C_MNTH(" + collision.getC_MNTH()+ "),C_WDAY(" +collision.getC_WDAY() + "),C_HOUR(" + collision.getC_HOUR() + "),C_SEV(" + collision.getC_SEV() + "),C_VEHS(" + collision.getC_VEHS()
+                    Integer.toString(aggregateData.getTrafficScore()) + "),PassengerPositioning(" + aggregateData.getCrashSevirity()+ "),C_YEAR(" +collision.getC_YEAR()+ "),C_MNTH(" + collision.getC_MNTH()+ "),C_WDAY(" +collision.getC_WDAY() + "),C_HOUR(" + collision.getC_HOUR() + "),C_SEV(" + collision.getC_SEV() + "),C_VEHS(" + collision.getC_VEHS()
                             + "),C_CONF(" + collision.getC_CONF() + "),C_RCFG(" + collision.getC_RCFG() + "),C_WTHR(" + collision.getC_WTHR() + "),C_RSUR(" + collision.getC_RSUR() + "),C_RALN(" + collision.getC_RALN()
                             + "),C_TRAF(" + collision.getC_TRAF()+ "),P_SEX(" + person.getP_SEX() + "),P_AGE(" + person.getP_AGE() + "),P_PSN(" + person.getP_PSN() + "),P_ISEV(" + person.getP_ISEV()
                     + "),P_SAFE(" + person.getP_SAFE() + "),P_USER(" +person.getP_USER() + "),V_TYPE(" + vehicle.getV_TYPE() + "),V_YEAR(" +vehicle.getV_YEAR() + ")";

@@ -37,4 +37,8 @@ public class TransactionalItemSet<ItemType extends Item> extends ItemSet<ItemTyp
         this.transactions = transactions;
     }
 
+
+    public final TransactionalItemSet<ItemType> cloneMe() {
+        return new TransactionalItemSet(this);
+    }
 }

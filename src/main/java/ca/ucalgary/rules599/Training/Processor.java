@@ -1,13 +1,10 @@
 package ca.ucalgary.rules599.Training;
 
-import ca.ucalgary.rules599.Rules599Application;
 import ca.ucalgary.rules599.config.TrainerConfig;
 import ca.ucalgary.rules599.datastructure.TransactionalItemSet;
-import ca.ucalgary.rules599.model.AccidentAttributeHolder;
-import ca.ucalgary.rules599.model.IAccidentData;
-import ca.ucalgary.rules599.model.ItemSet;
-import ca.ucalgary.rules599.model.AccidentAttribute;
+import ca.ucalgary.rules599.model.*;
 import ca.ucalgary.rules599.modules.AssociationRuleGeneratorModule;
+import ca.ucalgary.rules599.modules.FrequentItemSetMiner;
 import ca.ucalgary.rules599.modules.FrequentItemSetMinerModule;
 import ca.ucalgary.rules599.rules.Apriori;
 import ca.ucalgary.rules599.rules.Output;
@@ -17,20 +14,21 @@ import ca.ucalgary.rules599.task.FrequentItemSetMinerTask;
 import ca.ucalgary.rules599.util.DataIterator;
 import ca.ucalgary.rules599.util.Logger599;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+
+
+import static java.util.Collections.reverseOrder;
 
 
 public class Processor {
@@ -38,6 +36,8 @@ public class Processor {
 
     @Autowired
     TrainerConfig trainerConfig;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FrequentItemSetMinerModule.class);
 
     private static Logger599 LOG = new Logger599(Processor.class.getName());
     public RuleSet generateRules(String fileName, double support, @NotNull final double minConfidence){
@@ -51,7 +51,6 @@ public class Processor {
     public Output<AccidentAttribute> generateApriori(String fileName, Map<Integer, TransactionalItemSet<AccidentAttribute>> frequentItemSet, Apriori.Configuration configuration){
         FrequentItemSetMinerTask<AccidentAttribute> frequentItemSetMinerTask = new FrequentItemSetMinerTask<>(configuration);
         AssociationRuleGeneratorTask<AccidentAttribute> associationRuleGeneratorTask = new AssociationRuleGeneratorTask<>(configuration);
-
         Apriori<AccidentAttribute> apriori = new Apriori<>(configuration, frequentItemSetMinerTask,associationRuleGeneratorTask);
         Output<AccidentAttribute> output = apriori.execute(() -> new DataIterator(new File(fileName),2,true));
         return output;
@@ -73,7 +72,6 @@ public class Processor {
                                                                                              @NotNull final String attributeFileName) {
 
         AccidentAttributeHolder holder = readAttributeValues(attributeFileName);
-
         File inputFile = new  File(fileName);
         FrequentItemSetMinerModule<AccidentAttribute> frequentItemSetMiner = new FrequentItemSetMinerModule<>();
         Map<Integer, TransactionalItemSet<AccidentAttribute>> frequentItemSets = frequentItemSetMiner
@@ -83,6 +81,12 @@ public class Processor {
 
     }
 
+
+    public Map<Integer, TransactionalItemSet<AccidentAttribute>> findnItemFrequentItemSets(@NotNull final String fileName,final double minSupport, int itemSetSize, int maxPop) {
+        Map<Integer, TransactionalItemSet<AccidentAttribute>> frequentItemSets = findFrequentItemSets(fileName,minSupport);
+        Map<Integer, TransactionalItemSet<AccidentAttribute>> filteredSet = frequentItemSets.entrySet().stream().filter(c -> c.getValue().size() ==itemSetSize).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        return filteredSet.entrySet().stream().sorted(Comparator.comparing(Map.Entry::getValue, reverseOrder())).limit(maxPop).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
 
 
     private Map<Integer, ItemSet<IAccidentData>> createFrequentItemSets(

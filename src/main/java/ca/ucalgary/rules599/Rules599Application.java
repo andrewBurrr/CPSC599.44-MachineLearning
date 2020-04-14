@@ -59,9 +59,10 @@ public class Rules599Application implements CommandLineRunner {
                 String inputFile = argParse.get("input") == null ? trainerConfig.getInputFile(): argParse.get("input");
                 String outFile = argParse.get("output") == null ? trainerConfig.getOutputFile(): argParse.get("output");
                 String configFile = argParse.get("config") == null ? trainerConfig.getConfigFile(): argParse.get("config");
+                float injuryWeight = argParse.get("weights") == null ? 1: Float.parseFloat(argParse.get("weights"));
                 Apriori.Configuration configuration = getConfigurationFromFile(configFile);
                 if(runPreProcessor){
-                    new EvolutionaryAlgorithm(configuration).Preprocessor(inputFile, outFile);
+                    new EvolutionaryAlgorithm(configuration).Preprocessor(inputFile, outFile,injuryWeight);
                 }else if (runProcessor){
                     new EvolutionaryAlgorithm(configuration).processor(inputFile, outFile, null); //Need to change this to pass in Existing Knowledge
                 }else if (runPostProcessor){

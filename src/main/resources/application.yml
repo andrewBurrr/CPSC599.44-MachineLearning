@@ -8,5 +8,6 @@ logging:
 
 trainer:
   metrics:
-    support: 0.5
-    dataFile: classpath:data.csv
+    configFile: src/main/resources/config.yml
+    inputFile: src/main/resources/drivers.csv
+    outputFile: src/mainresources/output.txt

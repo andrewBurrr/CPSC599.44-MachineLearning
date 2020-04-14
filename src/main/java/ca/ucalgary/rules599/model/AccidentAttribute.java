@@ -1,7 +1,11 @@
 package ca.ucalgary.rules599.model;
 
+import ca.ucalgary.rules599.datastructure.Pair;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -47,6 +51,23 @@ public class AccidentAttribute implements  Item {
         return name.equals(other.name);
     }
 
+
+
+    public Pair<ItemSet<AccidentAttribute>,ItemSet<AccidentAttribute>> getDatafromCSV(String csvString){
+        String cvsSplitBy = "]";
+        String[] accdata = csvString.replace("[","").split(cvsSplitBy);
+        String[] ante = accdata[0].split(",");
+        String[] cons = accdata[1].split(",");
+        ItemSet<AccidentAttribute> antecedence = new ItemSet<>();
+        ItemSet<AccidentAttribute> consequence = new ItemSet<>();
+        for(int i=0; i==ante.length-1; i++){
+            antecedence.add(AccidentAttribute.builder().name(ante[i]).build());
+        }
+        for(int i=0; i==cons.length-1; i++){
+            consequence.add(AccidentAttribute.builder().name(cons[i]).build());
+        }
+        return new Pair<>(antecedence,consequence);
+    }
 
 
 }

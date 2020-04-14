@@ -20,9 +20,9 @@ private Apriori.Configuration configuration;
         this.configuration=trainerConfig;
     }
 
-    public  Boolean Preprocessor(String inputFile, String outfile){
+    public  Boolean Preprocessor(String inputFile, String outfile, float injuryWeight){
      try {
-         List<AccidentData> preprocessor = new Preprocessor().processInitialData(new File(inputFile),outfile);
+         List<AccidentData> preprocessor = new Preprocessor().processInitialData(new File(inputFile),outfile,injuryWeight);
         } catch (Exception e) {
             System.out.println("Error initializing stream");
         }
@@ -55,6 +55,7 @@ private Apriori.Configuration configuration;
         }
         return true;
     }
+
 
 
 }

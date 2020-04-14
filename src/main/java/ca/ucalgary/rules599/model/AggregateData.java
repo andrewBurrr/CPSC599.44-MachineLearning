@@ -15,7 +15,7 @@ public class AggregateData implements Item {
     int noOfPerson;
     int visibility;
     int trafficScore;
-    int passengerPositioning;
+    String crashSevirity;
 
     @Override
     public final int compareTo(@NotNull final Item o) {
