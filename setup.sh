@@ -27,8 +27,8 @@ function Run-Program {
 function Main {
 	Get-Maven;
 	# Get-Project; # comment this out if the project is already included
-	Get-Jar; # this should be a separate step for submission (likely just an instruction in a readme.md)
-	Run-Program; # also in a readme.md
+	# Get-Jar; # this should be a separate step for submission (likely just an instruction in a readme.md)
+	# Run-Program; # also in a readme.md
 }
 
 Main;
