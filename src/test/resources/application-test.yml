@@ -9,7 +9,7 @@ logging:
     level:
 
 configFile: src/main/resources/config.yml
-  inputFile: src/main/resources/drivers.csv
+  inputFile: src/main/resources/data_lite.csv
   learnedInput: src/main/resources/knownRules.txt
   outputFile: src/main/resources/output.txt
   populationSize: 10

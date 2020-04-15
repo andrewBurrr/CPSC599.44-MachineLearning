@@ -16,17 +16,17 @@ function Get-Project {
 }
 
 function Get-Jar {
-	cd CPSC599.44-MachineLearning;
+	# cd CPSC599.44-MachineLearning;
 	mvn clean install;
 }
 
 function Run-Program {
-	java -jar target/rules_599-1.0-SNAPSHOT-spring-boot.jar;
+	java -jar target/rules_599-1.0-spring-boot.jar;
 }
 
 function Main {
 	Get-Maven;
-	Get-Project; # comment this out if the project is already included
+	# Get-Project; # comment this out if the project is already included
 	Get-Jar; # this should be a separate step for submission (likely just an instruction in a readme.md)
 	Run-Program; # also in a readme.md
 }
