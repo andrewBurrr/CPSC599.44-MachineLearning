@@ -9,6 +9,7 @@ import ca.ucalgary.rules599.modules.FrequentItemSetMinerModule;
 import ca.ucalgary.rules599.rules.Apriori;
 import ca.ucalgary.rules599.rules.AssociationRule;
 import ca.ucalgary.rules599.rules.Output;
+import ca.ucalgary.rules599.rules.RuleSet;
 import ca.ucalgary.rules599.task.AssociationRuleGeneratorTask;
 import ca.ucalgary.rules599.task.FrequentItemSetMinerTask;
 import ca.ucalgary.rules599.util.DataIterator;
@@ -185,11 +186,11 @@ public class GAImplementation {
     }
 
 
-    public  Map<Integer,TransactionalItemSet<AccidentAttribute>> updatedFrequentItemSets(String knownItemFileName){
+    public  Map<Integer,TransactionalItemSet<AccidentAttribute>> updatedFrequentItemSets(String knownItemFileName,double minSupprt){
         File inputFile = new  File(knownItemFileName);
         FrequentItemSetMinerModule<AccidentAttribute> frequentItemSetMiner = new FrequentItemSetMinerModule<>();
         Map<Integer, TransactionalItemSet<AccidentAttribute>> frequentItemSets = frequentItemSetMiner
-                .findFrequentItemSets(() -> new RuleDataIterator(inputFile,2,true), minSupport);
+                .findFrequentItemSets(() -> new RuleDataIterator(inputFile,2,true), minSupprt);
 
 
         //merge the Population FrequentItems with the input Ruleset.
@@ -198,47 +199,55 @@ public class GAImplementation {
     }
 
 
-    public Output<AccidentAttribute> generateApriori(String fileName, String knownItemFileName, Apriori.Configuration configuration){
+    public Output<AccidentAttribute> generateApriori(String fileName, Map<Integer, TransactionalItemSet<AccidentAttribute>> foundItemSets, Apriori.Configuration configuration, double minSup){
 
-        FrequentItemSetMinerTask<AccidentAttribute> frequentItemSetMinerTask = new FrequentItemSetMinerTask<>(
-                configuration, (iterator, minSupport) -> updatedFrequentItemSets(knownItemFileName));
+//        FrequentItemSetMinerTask<AccidentAttribute> frequentItemSetMinerTask = new FrequentItemSetMinerTask<>(
+//                configuration, (iterator, minSupport) -> foundItemSets);
+
+        FrequentItemSetMinerTask<AccidentAttribute> frequentItemSetMinerTask = new FrequentItemSetMinerTask<>(configuration);
         AssociationRuleGeneratorTask<AccidentAttribute> associationRuleGeneratorTask = new AssociationRuleGeneratorTask<>(configuration);
 
         Apriori<AccidentAttribute> apriori = new Apriori<>(configuration, frequentItemSetMinerTask,associationRuleGeneratorTask);
-        Output<AccidentAttribute> output = apriori.execute(() -> new DataIterator(new File(fileName),2,true));
-        return output;
+       return apriori.execute(() -> new DataIterator(new File(fileName),2,true));
+//        return new Processor().generateApriori(fileName,null,configuration);
     }
 
 
-    public Output<AccidentAttribute> outputSortedRules(String fileName, String knownItemFileName, Apriori.Configuration configuration) {
-        Output<AccidentAttribute> output = generateApriori(fileName, knownItemFileName, configuration);
-        long countLow = output.getRuleSet().stream().filter(e -> e.getBody().contains(AccidentAttribute.builder().name("low"))).count();
-        long countMedium = output.getRuleSet().stream().filter(e -> e.getBody().contains(AccidentAttribute.builder().name("medium"))).count();
-        long countHigh = output.getRuleSet().stream().filter(e -> e.getBody().contains(AccidentAttribute.builder().name("high"))).count();
-        long countGeneral = output.getRuleSet().stream().filter(e -> !e.getBody().contains(AccidentAttribute.builder().name("high")) && !e.getBody().contains(AccidentAttribute.builder().name("low")) && !e.getBody().contains(AccidentAttribute.builder().name("medium"))).count();
+    public Output<AccidentAttribute> outputSortedRules(String fileName,String outFileName, Map<Integer, TransactionalItemSet<AccidentAttribute>> foundItemSets, Apriori.Configuration configuration,double minSupport) {
+        Output<AccidentAttribute> output = generateApriori(fileName, foundItemSets, configuration, minSupport);
+        if(output.getRuleSet().size()==0){
+            return null;
+        }
+
+        long countLow = output.getRuleSet().stream().filter(e -> e.getBody().contains(AccidentAttribute.builder().name("low").build())).count();
+        long countMedium = output.getRuleSet().stream().filter(e -> e.getBody().contains(AccidentAttribute.builder().name("medium").build())).count();
+        long countHigh = output.getRuleSet().stream().filter(e -> e.getBody().contains(AccidentAttribute.builder().name("high").build())).count();
+        long countGeneral = output.getRuleSet().stream().filter(e -> !e.getBody().contains(AccidentAttribute.builder().name("high").build()) && !e.getBody().contains(AccidentAttribute.builder().name("low").build()) && !e.getBody().contains(AccidentAttribute.builder().name("medium").build())).count();
 
         double overAllConfidence = 0;
         int totalRules = output.getRuleSet().size();
 
         FileWriter fileWriter = null;
         try {
-            fileWriter = new FileWriter(fileName);
+            fileWriter = new FileWriter(new File(outFileName));
         } catch (IOException e) {
             e.printStackTrace();
         }
         PrintWriter printWriter = new PrintWriter(fileWriter);
         printWriter.print("Writing Rule configuration File");
         printWriter.printf(output.getConfiguration().toString());
-        printWriter.print("\n\n");
+        printWriter.print("\n");
 
 
         printWriter.print("Writing External rules added");
-        printWriter.printf(updatedFrequentItemSets(knownItemFileName).toString());
-        printWriter.print("\n\n");
-
+        for (Map.Entry<Integer, TransactionalItemSet<AccidentAttribute>> entry : breedingPopulationMap.entrySet()) {
+            printWriter.printf(entry.getValue().toString());
+            printWriter.print("\n");
+        }
 
         printWriter.print("Writing Rule Generation Statistics");
         printWriter.print("|Low  | medium  | high | General |");
+        printWriter.print("\n");
         printWriter.print(String.valueOf(countLow) + " | " + String.valueOf(countMedium) + " | " + String.valueOf(countHigh) + " | " + String.valueOf(countGeneral) + " | ");
         printWriter.print("\n\n");
 
@@ -254,11 +263,9 @@ public class GAImplementation {
 
         }
 
+        overAllConfidence=overAllConfidence/totalRules;
 
-        printWriter.printf(updatedFrequentItemSets(knownItemFileName).toString());
-        printWriter.print("\n\n");
-
-        //sort the list of fitness and use it for average, min and max
+         //sort the list of fitness and use it for average, min and max
         //breedingPopulationMap.getValue
 
         TreeMap<Integer, Double> sortedTree = new TreeMap<>(ruleFitness);
@@ -268,29 +275,36 @@ public class GAImplementation {
 
         printWriter.print("Writing Rule Result Statistics");
         printWriter.print("|Average Fitness  | Lowest Fitness  | highestFitness | total no of Rules");
+        printWriter.print("\n");
         printWriter.print(String.valueOf(averageFitness) + " | " + String.valueOf(lowestFitness) + " | " + String.valueOf(highestFitness) + " | " + String.valueOf(sortedTree.size()) + " | ");
         printWriter.print("\n\n");
 
-
+        StringBuilder stringBuilder = new StringBuilder();
         for (int key : sortedTree.keySet()) {
             ruleWithFitness.getValue(key);
 
-            StringBuilder stringBuilder = new StringBuilder();
+
             stringBuilder.append("[");
-            stringBuilder.append(ruleWithFitness.getValue(key).getBody().toString());
+            for (AccidentAttribute accidentAttribute : ruleWithFitness.get(key).getBody()){
+                stringBuilder.append(accidentAttribute.getName());
+                stringBuilder.append(",\n");
+            }
+            stringBuilder.append("]");
+
+            stringBuilder.append(",\n");
             stringBuilder.append(" (support = ");
-            stringBuilder.append(ruleWithFitness.getValue(key).getSupport());
+            stringBuilder.append(ruleWithFitness.get(key).getSupport());
             stringBuilder.append(")");
             stringBuilder.append(",\n");
             stringBuilder.append("]");
-            printWriter.print(stringBuilder);
-        }
 
+        }
+            printWriter.print(stringBuilder);
             printWriter.print("Writing Rule Created");
             printWriter.print("\n\n");
 
 
-        overAllConfidence=overAllConfidence/totalRules;
+
 
         printWriter.close();
         return output;
