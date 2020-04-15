@@ -1,13 +1,11 @@
 package ca.ucalgary.rules599.Training;
 
-import ca.ucalgary.rules599.config.TrainerConfig;
 import ca.ucalgary.rules599.datastructure.TransactionalItemSet;
 import ca.ucalgary.rules599.model.AccidentAttribute;
 import ca.ucalgary.rules599.model.AccidentData;
-import ca.ucalgary.rules599.model.ItemSet;
 import ca.ucalgary.rules599.model.Population;
 import ca.ucalgary.rules599.rules.*;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 
 import java.io.*;
@@ -33,36 +31,21 @@ private Apriori.Configuration configuration;
         return true;
     }
 
-    public  Boolean processor(String fileName, String outFile, Map<Integer, TransactionalItemSet<AccidentAttribute>> frequentItemSet){
+    public  Boolean processor(String fileName, String outFile, String knownFile,Map<Integer, TransactionalItemSet<AccidentAttribute>> frequentItemSet, int popSize, float injuryWeight){
         try {
-            Output<AccidentAttribute> output = new Processor().generateApriori(fileName,frequentItemSet, configuration);
-            FileOutputStream f = new FileOutputStream(new File(outFile));
-            ObjectOutputStream o = new ObjectOutputStream(f);
 
-            GAImplementation gaImplementation;
-            Population population =  new Population();
-            population.initializePopulation(new Processor().findnItemFrequentItemSets(fileName, configuration.getMinSupport(),1, 5),5);
-            gaImplementation = new GAImplementation(population);
-            Output<AccidentAttribute> actualData =gaImplementation.outputSortedRules(fileName, outFile, population.individuals, configuration,0.8f);
-            
+            // run preProcessing first
+            if(Preprocessor(fileName, outFile, injuryWeight)){
 
-
-            for(AssociationRule ruleSet : output.getRuleSet()) {
-                o.writeObject(ruleSet.toString());
+                GAImplementation gaImplementation;
+                Population population = new Population();
+                population.initializePopulation(new Processor().findnItemFrequentItemSets(fileName, configuration.getMinSupport(), configuration.getFrequentItemSetCount(), popSize), popSize);
+                gaImplementation = new GAImplementation(population);
+                String absolutePath = new File(outFile).getAbsolutePath();
+                String reportOutput = absolutePath.substring(0,absolutePath.lastIndexOf(File.separator)) + "report.txt";
+                Output<AccidentAttribute> output = gaImplementation.outputSortedRules(outFile, reportOutput, knownFile, population.individuals, configuration, configuration.getMinSupport());
             }
-            // Write objects to file
-
-            for(ItemSet itemSet : output.getFrequentItemSets()) {
-                o.writeObject(itemSet.toString());
-            }
-
-            o.close();
-            f.close();
-
-        } catch (
-                FileNotFoundException e) {
-            System.out.println("File not found");
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Error initializing stream");
         }
         return true;

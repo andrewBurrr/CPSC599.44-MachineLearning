@@ -14,7 +14,7 @@ public class TrainerConfig {
     public String inputFile;
     public String learnedInput;
     public String outputFile;
-
+    public int maxPopsize;
 
 
 }

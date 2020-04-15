@@ -119,7 +119,7 @@ public class PreProcessorTest {
         Population population =  new Population();
         population.initializePopulation(processor.findnItemFrequentItemSets("src/test/resources/driversTest.csv",0.8,1, 5),5);
         gaImplementation = new GAImplementation(population);
-        Output<AccidentAttribute> actualData =gaImplementation.outputSortedRules("src/test/resources/driversTest.csv", "src/test/resources/report.txt", population.individuals, configuration,0.8f);
+        Output<AccidentAttribute> actualData =gaImplementation.outputSortedRules("src/test/resources/driversTest.csv", "src/test/resources/report.txt","src/test/resources/knownRules.txt", population.individuals, configuration,0.8f);
         assertNotNull(actualData);
     }
 

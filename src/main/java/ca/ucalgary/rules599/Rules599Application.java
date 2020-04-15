@@ -8,6 +8,7 @@ import ca.ucalgary.rules599.model.Population;
 import ca.ucalgary.rules599.rules.Apriori;
 import ca.ucalgary.rules599.rules.Output;
 import ca.ucalgary.rules599.util.Logger599;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -60,18 +61,20 @@ public class Rules599Application implements CommandLineRunner {
             LOG.debug("Usage: java -jar AppName -v level [-c | -i input -o output -w weights]");
             System.exit(0);
         }
+
                 LOG.info("Begin execution flow of tasks:");
                 LOG.info("Training Instance ");
                 String inputFile = argParse.get("input") == null ? trainerConfig.getInputFile(): argParse.get("input");
                 String outFile = argParse.get("output") == null ? trainerConfig.getOutputFile(): argParse.get("output");
                 String configFile = argParse.get("config") == null ? trainerConfig.getConfigFile(): argParse.get("config");
-                String know = argParse.get("know") == null ? trainerConfig.getConfigFile(): argParse.get("know");
+                String known = argParse.get("know") == null ? trainerConfig.getLearnedInput(): argParse.get("know");
+                int popSize = argParse.get("population") == null ? trainerConfig.maxPopsize: Integer.valueOf(argParse.get("population"));
                 float injuryWeight = argParse.get("weights") == null ? 1: Float.parseFloat(argParse.get("weights"));
                 Apriori.Configuration configuration = getConfigurationFromFile(configFile);
                 if(runPreProcessor){
                     new EvolutionaryAlgorithm(configuration).Preprocessor(inputFile, outFile,injuryWeight);
                 }else if (runProcessor){
-                    new EvolutionaryAlgorithm(configuration).processor(inputFile, outFile, null); //Need to change this to pass in Existing Knowledge
+                    new EvolutionaryAlgorithm(configuration).processor(inputFile, outFile, known, null,popSize, injuryWeight); //Need to change this to pass in Existing Knowledge
                 }else if (runPostProcessor){
                     //boolean result = new EvolutionaryAlgorithm(configuration).Preprocessor(inputFile, outFile);
                 }
@@ -121,6 +124,7 @@ public class Rules599Application implements CommandLineRunner {
                     case "-c": case "--config"  : matches.put("config",args[i+1].toLowerCase()); break;
                     case "-i": case "--input"   : matches.put("input",args[i+1].toLowerCase()); break;
                     case "-k": case "--know"   : matches.put("know",args[i+1].toLowerCase()); break;
+                    case "-p": case "--population"   : matches.put("population",args[i+1].toLowerCase()); break;
                     case "-o": case "--output"  : matches.put("output",args[i+1].toLowerCase()); break;
                     case "-v": case "--verbose" : matches.put("verbose",""); break;
                     case "-w": case "--weights" : matches.put("weights",args[i+1].toLowerCase()); break;
@@ -136,8 +140,9 @@ public class Rules599Application implements CommandLineRunner {
                         System.out.println("-i   --input            Path to the input file");
                         System.out.println("-k   --input            Path to the input file");
                         System.out.println("-o   --output           Path to the Output file");
-                        System.out.println("-w   --output           Path to the Output file");
-                        System.out.println("-pre --weights          Weight assigned.");
+                        System.out.println("-p   --population       Size of the Breeding Population");
+                        System.out.println("-w   --weight           Weight Assigned");
+                        System.out.println("-pre --PreProcessor     Operation is PreProcessing only.");
                         System.out.println("-pro --processor        Operation is Processing only.");
                         System.out.println("-post --postprocessor   Operation is Postprocessing only.");
                         System.out.println("-all                    Operation Perform all Pre-Processing, processing and Post Processing.");

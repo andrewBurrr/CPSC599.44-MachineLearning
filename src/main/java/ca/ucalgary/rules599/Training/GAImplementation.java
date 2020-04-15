@@ -209,11 +209,10 @@ public class GAImplementation {
 
         Apriori<AccidentAttribute> apriori = new Apriori<>(configuration, frequentItemSetMinerTask,associationRuleGeneratorTask);
        return apriori.execute(() -> new DataIterator(new File(fileName),2,true));
-//        return new Processor().generateApriori(fileName,null,configuration);
     }
 
 
-    public Output<AccidentAttribute> outputSortedRules(String fileName,String outFileName, Map<Integer, TransactionalItemSet<AccidentAttribute>> foundItemSets, Apriori.Configuration configuration,double minSupport) {
+    public Output<AccidentAttribute> outputSortedRules(String fileName,String outFileName,String knownFile, Map<Integer, TransactionalItemSet<AccidentAttribute>> foundItemSets, Apriori.Configuration configuration,double minSupport) {
         Output<AccidentAttribute> output = generateApriori(fileName, foundItemSets, configuration, minSupport);
         if(output.getRuleSet().size()==0){
             return null;
@@ -223,6 +222,8 @@ public class GAImplementation {
         long countMedium = output.getRuleSet().stream().filter(e -> e.getBody().contains(AccidentAttribute.builder().name("medium").build())).count();
         long countHigh = output.getRuleSet().stream().filter(e -> e.getBody().contains(AccidentAttribute.builder().name("high").build())).count();
         long countGeneral = output.getRuleSet().stream().filter(e -> !e.getBody().contains(AccidentAttribute.builder().name("high").build()) && !e.getBody().contains(AccidentAttribute.builder().name("low").build()) && !e.getBody().contains(AccidentAttribute.builder().name("medium").build())).count();
+
+        Map<Integer, TransactionalItemSet<AccidentAttribute>> leartKnownledge = updatedFrequentItemSets(knownFile,configuration.getMinSupport());
 
         double overAllConfidence = 0;
         int totalRules = output.getRuleSet().size();
@@ -240,7 +241,7 @@ public class GAImplementation {
 
 
         printWriter.print("Writing External rules added");
-        for (Map.Entry<Integer, TransactionalItemSet<AccidentAttribute>> entry : breedingPopulationMap.entrySet()) {
+        for (Map.Entry<Integer, TransactionalItemSet<AccidentAttribute>> entry : leartKnownledge.entrySet()) {
             printWriter.printf(entry.getValue().toString());
             printWriter.print("\n");
         }

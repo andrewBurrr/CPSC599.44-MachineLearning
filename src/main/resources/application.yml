@@ -12,3 +12,4 @@ trainer:
     inputFile: src/main/resources/drivers.csv
     learnedInput: src/main/resources/drivers1.csv
     outputFile: src/mainresources/output.txt
+    populationSize: 10

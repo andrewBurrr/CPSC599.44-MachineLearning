@@ -1,0 +1,8 @@
+ca\ucalgary\rules599\test\AbstractDataTest.class
+ca\ucalgary\rules599\test\AprioriTest.class
+ca\ucalgary\rules599\test\AssociationRuleTest.class
+ca\ucalgary\rules599\test\FrequentItemSetMinerTest.class
+ca\ucalgary\rules599\test\ItemSetTest.class
+ca\ucalgary\rules599\test\Rules599ApplicationTest.class
+ca\ucalgary\rules599\test\DataIteratorTest.class
+ca\ucalgary\rules599\test\PreProcessorTest.class

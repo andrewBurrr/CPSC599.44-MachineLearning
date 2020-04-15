@@ -8,7 +8,8 @@ logging:
   pattern:
     level:
 
-trainer:
-  metrics:
-    support: 0.5
-    dataFile: classpath:data.csv
+configFile: src/main/resources/config.yml
+  inputFile: src/main/resources/drivers.csv
+  learnedInput: src/main/resources/knownRules.txt
+  outputFile: src/mainresources/output.txt
+  populationSize: 10

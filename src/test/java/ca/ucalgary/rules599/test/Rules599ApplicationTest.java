@@ -1,6 +1,7 @@
 package ca.ucalgary.rules599.test;
 
 import ca.ucalgary.rules599.Rules599Application;
+import ca.ucalgary.rules599.config.TrainerConfig;
 import ca.ucalgary.rules599.model.AccidentData;
 import org.junit.Before;
 import org.junit.Rule;
@@ -14,6 +15,8 @@ import static ca.ucalgary.rules599.test.AbstractDataTest.INPUT_FILE_1;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class Rules599ApplicationTest {
 
@@ -35,11 +38,17 @@ public class Rules599ApplicationTest {
 
     @Test
     public final void Rules599ApplicationTest() {
-        rules599Application.run("-pre","-c","src/test/resources/config.yml","-i","src/test/resources/data_lite.csv","-o", "src/test/resources/drivers.csv");
+        TrainerConfig trainerConfig = mock(TrainerConfig.class);
+        when(trainerConfig.getMaxPopsize()).thenReturn(5);
+        when(trainerConfig.getLearnedInput()).thenReturn("src/test/resources/knownRules.txt");
+        when(trainerConfig.getConfigFile()).thenReturn("src/test/resources/config.yml");
+
+
+        rules599Application.run("-p", "5","-k", "src/test/resources/knownRules.txt","-pre","-c","src/test/resources/config.yml","-i","src/test/resources/data_lite.csv","-o", "src/test/resources/drivers.csv");
         String output = this.outputCapture.toString();
         assertTrue(output, output.contains("PreProcessing Completed"));
 
-        rules599Application.run("-pro","-c","src/test/resources/config.yml","-i","src/test/resources/driversTest.csv","-o", "src/test/resources/Output.txt");
+        rules599Application.run("-p", "5","-k", "src/test/resources/knownRules.txt","-pro","-c","src/test/resources/config.yml","-i","src/test/resources/driversTest.csv","-o", "src/test/resources/Output.txt");
         output = this.outputCapture.toString();
         assertTrue(output, output.contains("support"));
 
