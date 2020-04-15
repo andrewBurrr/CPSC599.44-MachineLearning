@@ -1,12 +1,17 @@
 package ca.ucalgary.rules599;
 
 import ca.ucalgary.rules599.Training.EvolutionaryAlgorithm;
+import ca.ucalgary.rules599.Training.GAImplementation;
 import ca.ucalgary.rules599.config.TrainerConfig;
+import ca.ucalgary.rules599.model.AccidentAttribute;
+import ca.ucalgary.rules599.model.Population;
 import ca.ucalgary.rules599.rules.Apriori;
+import ca.ucalgary.rules599.rules.Output;
 import ca.ucalgary.rules599.util.Logger599;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
@@ -19,6 +24,7 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SpringBootApplication
 public class Rules599Application implements CommandLineRunner {
 
     private static final String PARSER = "\\s*(?<verbose>(?:-v|--verbose)\\s(?:[0-7]))\\s(?:(?<config>-c|--config)|(?:(?<input>(?:-i|--input)\\s(?:\\S+\\.txt))\\s(?<output>(?:-o|--output)\\s(?:\\S+\\.txt))\\s(?<weights>(?:-w|--weights)(?:\\s+(?:[1-9][0-9]*))+)))\\s*";
@@ -59,6 +65,7 @@ public class Rules599Application implements CommandLineRunner {
                 String inputFile = argParse.get("input") == null ? trainerConfig.getInputFile(): argParse.get("input");
                 String outFile = argParse.get("output") == null ? trainerConfig.getOutputFile(): argParse.get("output");
                 String configFile = argParse.get("config") == null ? trainerConfig.getConfigFile(): argParse.get("config");
+                String know = argParse.get("know") == null ? trainerConfig.getConfigFile(): argParse.get("know");
                 float injuryWeight = argParse.get("weights") == null ? 1: Float.parseFloat(argParse.get("weights"));
                 Apriori.Configuration configuration = getConfigurationFromFile(configFile);
                 if(runPreProcessor){
@@ -72,6 +79,11 @@ public class Rules599Application implements CommandLineRunner {
                     LOG.error("Usage: java -jar AppName [-pre -pro -post] -v level [-c config -i input -o output -w weights]");
                 }
     }
+
+
+
+
+
 
 
     /**
@@ -108,6 +120,7 @@ public class Rules599Application implements CommandLineRunner {
                 switch (args[i].toLowerCase()) {
                     case "-c": case "--config"  : matches.put("config",args[i+1].toLowerCase()); break;
                     case "-i": case "--input"   : matches.put("input",args[i+1].toLowerCase()); break;
+                    case "-k": case "--know"   : matches.put("know",args[i+1].toLowerCase()); break;
                     case "-o": case "--output"  : matches.put("output",args[i+1].toLowerCase()); break;
                     case "-v": case "--verbose" : matches.put("verbose",""); break;
                     case "-w": case "--weights" : matches.put("weights",args[i+1].toLowerCase()); break;
@@ -121,6 +134,7 @@ public class Rules599Application implements CommandLineRunner {
                         System.out.println();
                         System.out.println("-c   --config           Path to the Configuration for the system");
                         System.out.println("-i   --input            Path to the input file");
+                        System.out.println("-k   --input            Path to the input file");
                         System.out.println("-o   --output           Path to the Output file");
                         System.out.println("-w   --output           Path to the Output file");
                         System.out.println("-pre --weights          Weight assigned.");
@@ -132,6 +146,11 @@ public class Rules599Application implements CommandLineRunner {
                         System.exit(0);
                 }
             }
+
+
+
+
+
 
         for (String mapKey : matches.keySet()) LOG.info("Arg[" + mapKey + "]: " + matches.get(mapKey));
         LOG.info("Arguments Parsed");

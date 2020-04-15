@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class TrainerConfig {
     public String configFile;
     public String inputFile;
+    public String learnedInput;
     public String outputFile;
 
 
