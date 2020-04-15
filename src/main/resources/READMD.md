@@ -28,7 +28,25 @@ Rules:
 [antecedent_11, ... antecedent_1k],[consequent_11,...,consequent_1k]
 [antecedent_21, ... antecdent_2k],[consequent_21,...,consequent_2k]
 ```
-###2. Pass in command line arguments
+
+###3. Usage
+-c     --config           Path to the Configuration for the system
+-i     --input            Path to the input file
+-k     --input            Path to the input file
+-o     --output           Path to the Output file
+-w     --output           Path to the Output file
+-v     --verbose          More detailed terminal messages
+-pre   --weights          Weight assigned
+-pro   --processor        Operation is Processing only.");
+-post  --postprocessor    Operation is Postprocessing only.");
+-all                      Operation Perform all Pre-Processing, processing and Post Processing
+-help                     Show this help
+
+
+###4. Sample command line arguments
 ```$xslt
--c -r sample.yml driverdatabase.csv output.txt Example-input.txt
+1) -c -r sample.yml driverdatabase.csv output.txt Example-input.txt
+2) java -jar {appname} "-p", "5","-k", "src/test/resources/knownRules.txt","-pro",
+    "-c","src/test/resources/config.yml","-i","src/test/resources/driversTest.csv",
+    "-o", "src/test/resources/Output.txt"
 ```
