@@ -11,5 +11,5 @@ logging:
 configFile: src/main/resources/config.yml
   inputFile: src/main/resources/drivers.csv
   learnedInput: src/main/resources/knownRules.txt
-  outputFile: src/mainresources/output.txt
+  outputFile: src/main/resources/output.txt
   populationSize: 10

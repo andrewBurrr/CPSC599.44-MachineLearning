@@ -10,6 +10,7 @@ import ca.ucalgary.rules599.util.Logger599;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import java.util.function.BiFunction;
@@ -32,9 +33,9 @@ public class Preprocessor {
     private float injuryWeight;
     public List<AccidentData> processInitialData(File file, String outfile, float injuryWeight){
             this.injuryWeight=injuryWeight;
-            List<AccidentData> inputList = new ArrayList<>();
+        List<AccidentData> inputList = new LinkedList<>();
             try{
-                InputStream inputFS = new FileInputStream(file);
+             InputStream inputFS = new FileInputStream(file);
                 BufferedReader br = new BufferedReader(new InputStreamReader(inputFS));
                 // skip the header of the csv
                 inputList = br.lines().skip(1).map(mapToItem).collect(Collectors.toList());

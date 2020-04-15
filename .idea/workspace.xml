@@ -2,16 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e0fc25d-f99e-459f-a2af-bf7e0144bef1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Rules599Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Rules599Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/EvolutionaryAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/EvolutionaryAlgorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/GAImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/GAImplementation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/config/TrainerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/config/TrainerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/Preprocessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/Preprocessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ca/ucalgary/rules599/test/PreProcessorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ca/ucalgary/rules599/test/PreProcessorTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/ca/ucalgary/rules599/test/Rules599ApplicationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ca/ucalgary/rules599/test/Rules599ApplicationTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/resources/application-test.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/application-test.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/knownRules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/knownRules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/output.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/report.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/ucalgary/rules599/Training/Preprocessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/ucalgary/rules599/Training/Preprocessor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/application-test.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/application-test.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/ucalgary/rules599/test/Rules599ApplicationTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/ca/ucalgary/rules599/test/Rules599ApplicationTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/drivers.csv" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/drivers.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/output.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/report.txt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,8 +30,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ca/ucalgary/rules599/test/Rules599ApplicationTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="39" column="30" lean-forward="true" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
+            <state relative-caret-position="187">
+              <caret line="39" column="29" lean-forward="true" selection-start-line="39" selection-start-column="29" selection-end-line="39" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -34,7 +39,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/GAImplementation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="998">
+            <state relative-caret-position="1151">
               <caret line="199" lean-forward="true" selection-start-line="199" selection-end-line="199" />
             </state>
           </provider>
@@ -43,11 +48,43 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/EvolutionaryAlgorithm.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="458">
-              <caret line="51" column="5" lean-forward="true" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
+            <state relative-caret-position="321">
+              <caret line="42" column="103" selection-start-line="42" selection-start-column="103" selection-end-line="42" selection-end-column="103" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/Preprocessor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="160">
+              <caret line="37" selection-start-line="37" selection-end-line="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="13" column="25" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/drivers.csv">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/model/AccidentData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="129">
+              <caret line="50" column="46" selection-start-line="50" selection-start-column="24" selection-end-line="50" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -64,26 +101,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ca/ucalgary/rules599/test/PreProcessorTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="80" column="113" lean-forward="true" selection-start-line="80" selection-start-column="113" selection-end-line="80" selection-end-column="148" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/ca/ucalgary/rules599/test/AprioriTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="496" column="65" selection-start-line="496" selection-start-column="8" selection-end-line="496" selection-end-column="65" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/application-test.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="49" selection-start-line="12" selection-start-column="49" selection-end-line="12" selection-end-column="49" />
+            <state relative-caret-position="265">
+              <caret line="43" column="74" selection-start-line="43" selection-start-column="74" selection-end-line="43" selection-end-column="74" />
             </state>
           </provider>
         </entry>
@@ -91,26 +110,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Rules599Application.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
+            <state relative-caret-position="202">
               <caret line="58" selection-start-line="58" selection-end-line="58" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.13/junit-4.13.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-test/2.0.3.RELEASE/spring-boot-test-2.0.3.RELEASE.jar!/org/springframework/boot/test/rule/OutputCapture.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="431">
-              <caret line="63" selection-start-line="63" selection-end-line="63" />
             </state>
           </provider>
         </entry>
@@ -130,14 +131,16 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/resources/application.yml" />
         <option value="$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/config/TrainerConfig.java" />
         <option value="$PROJECT_DIR$/src/test/resources/knownRules.txt" />
         <option value="$PROJECT_DIR$/src/test/java/ca/ucalgary/rules599/test/PreProcessorTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/GAImplementation.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/test/resources/application-test.yml" />
         <option value="$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Rules599Application.java" />
+        <option value="$PROJECT_DIR$/src/test/resources/report.txt" />
+        <option value="$PROJECT_DIR$/src/test/resources/application-test.yml" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.yml" />
+        <option value="$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/Preprocessor.java" />
         <option value="$PROJECT_DIR$/src/test/java/ca/ucalgary/rules599/test/Rules599ApplicationTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/EvolutionaryAlgorithm.java" />
       </list>
@@ -212,15 +215,6 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="rules599" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="rules_599" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CPSC599.44-MachineLearning" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="rules599" type="462c0819:PsiDirectoryNode" />
               <item name="Training" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -277,6 +271,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -290,7 +285,23 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.Rules599ApplicationTest">
+  <component name="RunManager" selected="JUnit.Rules599ApplicationTest.Rules599ApplicationTest">
+    <configuration name="PreProcessorTest.InitialLoadTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rules_599" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ca.ucalgary.rules599.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ca.ucalgary.rules599.test" />
+      <option name="MAIN_CLASS_NAME" value="ca.ucalgary.rules599.test.PreProcessorTest" />
+      <option name="METHOD_NAME" value="InitialLoadTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Rules599ApplicationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rules_599" />
       <extension name="coverage">
@@ -325,11 +336,13 @@
     <list>
       <item itemvalue="JUnit.Rules599ApplicationTest.Rules599ApplicationTest" />
       <item itemvalue="JUnit.Rules599ApplicationTest" />
+      <item itemvalue="JUnit.PreProcessorTest.InitialLoadTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.Rules599ApplicationTest" />
         <item itemvalue="JUnit.Rules599ApplicationTest.Rules599ApplicationTest" />
+        <item itemvalue="JUnit.PreProcessorTest.InitialLoadTest" />
+        <item itemvalue="JUnit.Rules599ApplicationTest" />
       </list>
     </recent_temporary>
   </component>
@@ -343,44 +356,44 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1586934878210</updated>
-      <workItem from="1586934889278" duration="6247000" />
+      <workItem from="1586934889278" duration="11938000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 02h 04m 39s.xml">
+    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 03h 38m 43s.xml">
       <configuration name="Rules599ApplicationTest.Rules599ApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 02h 05m 51s.xml">
+    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 03h 53m 24s.xml">
       <configuration name="Rules599ApplicationTest.Rules599ApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 02h 09m 59s.xml">
+    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 04h 03m 16s.xml">
       <configuration name="Rules599ApplicationTest.Rules599ApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 02h 12m 59s.xml">
+    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 04h 03m 37s.xml">
       <configuration name="Rules599ApplicationTest.Rules599ApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 02h 13m 19s.xml">
+    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 04h 07m 56s.xml">
       <configuration name="Rules599ApplicationTest.Rules599ApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 02h 17m 15s.xml">
+    <history-entry file="PreProcessorTest_InitialLoadTest - 2020.04.15 at 04h 22m 23s.xml">
+      <configuration name="PreProcessorTest.InitialLoadTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 04h 22m 53s.xml">
       <configuration name="Rules599ApplicationTest.Rules599ApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 02h 17m 55s.xml">
+    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 04h 29m 18s.xml">
       <configuration name="Rules599ApplicationTest.Rules599ApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 02h 19m 33s.xml">
+    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 04h 31m 55s.xml">
       <configuration name="Rules599ApplicationTest.Rules599ApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 02h 20m 28s.xml">
-      <configuration name="Rules599ApplicationTest.Rules599ApplicationTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 02h 59m 05s.xml">
+    <history-entry file="Rules599ApplicationTest_Rules599ApplicationTest - 2020.04.15 at 04h 32m 58s.xml">
       <configuration name="Rules599ApplicationTest.Rules599ApplicationTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6247000" />
+    <option name="totallyTimeSpent" value="11938000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -390,7 +403,7 @@
       <window_info id="Designer" />
       <window_info id="UI Designer" />
       <window_info id="Learn" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21481876" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
       <window_info anchor="bottom" id="Messages" weight="0.329718" />
@@ -400,8 +413,8 @@
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.31453362" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.3991323" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3264642" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.44251627" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -431,9 +444,21 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/EvolutionaryAlgorithm.java</url>
-          <line>45</line>
+          <line>42</line>
           <properties />
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/ca/ucalgary/rules599/test/Rules599ApplicationTest.java</url>
+          <line>46</line>
+          <properties />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/Preprocessor.java</url>
+          <line>37</line>
+          <properties />
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -465,24 +490,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="14" selection-start-line="10" selection-start-column="4" selection-end-line="14" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-test/2.0.3.RELEASE/spring-boot-test-2.0.3.RELEASE.jar!/org/springframework/boot/test/rule/OutputCapture.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="431">
           <caret line="63" selection-start-line="63" selection-end-line="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/application-test.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="49" selection-start-line="12" selection-start-column="49" selection-end-line="12" selection-end-column="49" />
         </state>
       </provider>
     </entry>
@@ -500,24 +511,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ca/ucalgary/rules599/test/PreProcessorTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="80" column="113" lean-forward="true" selection-start-line="80" selection-start-column="113" selection-end-line="80" selection-end-column="148" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/config/TrainerConfig.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/GAImplementation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="998">
-          <caret line="199" lean-forward="true" selection-start-line="199" selection-end-line="199" />
         </state>
       </provider>
     </entry>
@@ -528,24 +525,85 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ca/ucalgary/rules599/test/Rules599ApplicationTest.java">
+    <entry file="file://$PROJECT_DIR$/src/test/resources/output.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/data_2017.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/report.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="39" column="30" lean-forward="true" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
+        <state relative-caret-position="2947562">
+          <caret line="173386" column="16" selection-start-line="173386" selection-start-column="16" selection-end-line="173386" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/application-test.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/data_lite.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/model/AccidentData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="50" column="46" selection-start-line="50" selection-start-column="24" selection-end-line="50" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ca/ucalgary/rules599/test/PreProcessorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="43" column="74" selection-start-line="43" selection-start-column="74" selection-end-line="43" selection-end-column="74" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Rules599Application.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
+        <state relative-caret-position="202">
           <caret line="58" selection-start-line="58" selection-end-line="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="25" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/drivers.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ca/ucalgary/rules599/test/Rules599ApplicationTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="39" column="29" lean-forward="true" selection-start-line="39" selection-start-column="29" selection-end-line="39" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/Preprocessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/GAImplementation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1151">
+          <caret line="199" lean-forward="true" selection-start-line="199" selection-end-line="199" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ca/ucalgary/rules599/Training/EvolutionaryAlgorithm.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="51" column="5" lean-forward="true" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
+        <state relative-caret-position="321">
+          <caret line="42" column="103" selection-start-line="42" selection-start-column="103" selection-end-line="42" selection-end-column="103" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

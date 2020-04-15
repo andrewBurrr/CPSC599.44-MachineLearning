@@ -48,9 +48,9 @@ public class Rules599ApplicationTest {
         String output = this.outputCapture.toString();
         assertTrue(output, output.contains("PreProcessing Completed"));
 
-        rules599Application.run("-p", "5","-k", "src/test/resources/knownRules.txt","-pro","-c","src/test/resources/config.yml","-i","src/test/resources/driversTest.csv","-o", "src/test/resources/Output.txt");
-        output = this.outputCapture.toString();
-        assertTrue(output, output.contains("support"));
+//        rules599Application.run("-p", "5","-k", "src/test/resources/knownRules.txt","-pro","-c","src/test/resources/config.yml","-i","src/test/resources/driversTest.csv","-o", "src/test/resources/Output.txt");
+//        output = this.outputCapture.toString();
+//        assertTrue(output, output.contains("support"));
 
 //        rules599Application.run("-help");
 //        output = this.outputCapture.toString();

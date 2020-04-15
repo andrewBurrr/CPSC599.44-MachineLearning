@@ -5,8 +5,7 @@ Writing External rules addedWriting Rule Generation Statistics|Low  | medium  | 
 Writing Rule Result Statistics|Average Fitness  | Lowest Fitness  | highestFitness | total no of Rules
 0.0051150598946071634 | 0.0 | -0.00708038317367754 | 31935 | 
 
-[C_SEV(2),
-C_WDAY(1),
+[C_SEV(2),C_WDAY(1),
 NoOfPerson(2),
 PassengerPositioning(0),
 ],
